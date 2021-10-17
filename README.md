@@ -1,6 +1,11 @@
 # Examples
  
- This repo contains various examples for using deep learnng in Java
+ This repo contains various examples for using deep learnng in Java.
+ Examples include:
+ 
+ * Classification (assigning input to categories)
+ * Regression (predicting a numeric value)
+ * Image recognition (recognizing image content)
  
  For the best performance and accuracy the recommended way to run this example is to use Deep Netts Pro, with Free Development License.
  https://www.deepnetts.com/download

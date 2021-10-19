@@ -41,10 +41,6 @@ public class HyperParamSearchRun {
         networkFactory.setLossType(LossType.CROSS_ENTROPY);
         networkFactory.setHiddenActivation(ActivationType.TANH);
                 
-        // vidi kako ce se ovo integrisati u GUI
-        // kako ce d amu zada vrendosti, kako ce da se beleze i prikazuju rezultati
-        // ovde se zadaju varijablni parametri koji automatski isprobavaju u kombinaciji sa fiksnim
-        // u principu hperparam search ima fiksne i varijabilne parametre: fiksni se zadaju po jedan a varijabilni kao lista ili opseg
         HyperParameterSearch paramSearch = new HyperParameterSearch(); // maybe use builder for this        
         paramSearch.param(OPTIMIZER, List.of("SGD", "MOMENTUM")) // ove ce da proba sve, to je kao grid
                    .param(HIDDEN_NEURONS, Range.of(4, 10).step(2), GRID)   // specify range and optional step, neurons in single hidden layer                                    
@@ -56,8 +52,6 @@ public class HyperParamSearchRun {
                    .trainingSet(trainTest[0])
                    .testSet(trainTest[1])
                    .randomSeed(1234);
-
-
      
         paramSearch.run();    
         

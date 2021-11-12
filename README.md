@@ -13,4 +13,4 @@
  Step-by-step guide for setting up Deep Netts is available at
  https://www.deepnetts.com/getting-started
  
- For nore information see https://www.deepnetts.com
+ For more information see https://www.deepnetts.com

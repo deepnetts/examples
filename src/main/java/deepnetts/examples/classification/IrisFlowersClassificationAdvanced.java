@@ -63,11 +63,11 @@ public class IrisFlowersClassificationAdvanced {
         
         // get and configure an instanceof training algorithm
         BackpropagationTrainer trainer = neuralNet.getTrainer();
-        trainer.setMaxError(0.05f)
+        trainer.setStopError(0.05f)
                .setMaxEpochs(1000000)
                .setLearningRate(0.1f)
-               .setEarlyStopping(true)  // early stopping will stop the training if the error starts falling down to slow
-               .setEarlyStoppingMinLossChange(0.001f)   
+               .setEarlyStopping(true)  // early stopping will stop the training if the error starts decreasing to slow
+               .setEarlyStoppingMinLossChange(0.001f)   // stop the training if training error is smaller then this value
              //  .setLearningRateDecay(0.01f)       // uncoment these to use these additional training settings
                //.setOptimizer(OptimizerType.MOMENTUM)
              //  .setMomentum(0.9f);                

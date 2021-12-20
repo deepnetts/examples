@@ -62,8 +62,8 @@ public class IrisFlowersClassification {
         
         // get and configure an instanceof training algorithm
         BackpropagationTrainer trainer = neuralNet.getTrainer();
-        trainer.setMaxError(0.07f)
-               .setMaxEpochs(100)
+        trainer.setStopError(0.03f)
+               .setMaxEpochs(1000)
                .setLearningRate(0.01f);
             
         // run training to build the model

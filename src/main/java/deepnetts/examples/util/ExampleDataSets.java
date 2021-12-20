@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import javax.visrec.ml.data.DataSet;
 import deepnetts.data.MLDataItem;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;

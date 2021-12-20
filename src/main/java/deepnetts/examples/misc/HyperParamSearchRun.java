@@ -16,6 +16,7 @@ import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import javax.visrec.ml.data.DataSet;
 
@@ -42,7 +43,7 @@ public class HyperParamSearchRun {
         networkFactory.setHiddenActivation(ActivationType.TANH);
                 
         HyperParameterSearch paramSearch = new HyperParameterSearch(); // maybe use builder for this        
-        paramSearch.param(OPTIMIZER, List.of("SGD", "MOMENTUM")) // ove ce da proba sve, to je kao grid
+        paramSearch.param(OPTIMIZER, Arrays.asList("SGD", "MOMENTUM")) // ove ce da proba sve, to je kao grid
                    .param(HIDDEN_NEURONS, Range.of(4, 10).step(2), GRID)   // specify range and optional step, neurons in single hidden layer                                    
                    .param(LEARNING_RATE, Range.of(0.01f, 0.9f).step(0.1f), GRID) //  DIVIDE_AND_CONQUER ovog parametra uopste i nema!!!
                    .param(HIDDEN_LAYERS, Range.of(1, 10).step(1)) // a svaki da bude max sirine hidden neurons ili hidden layer width. Alternativa je da ima niz ranges

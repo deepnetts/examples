@@ -19,11 +19,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.visrec.ml.classification.ImageClassifier;
 import javax.visrec.ml.eval.EvaluationMetrics;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import javax.visrec.ri.ml.classification.ImageClassifierNetwork;
 
 /**
@@ -44,7 +43,7 @@ import javax.visrec.ri.ml.classification.ImageClassifierNetwork;
  */
 public class DukeDetector {
 
-    static final Logger LOGGER = LogManager.getLogger(DeepNetts.class.getName());
+    static final Logger LOGGER = Logger.getLogger(DeepNetts.class.getName());
 
     public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
 

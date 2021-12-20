@@ -12,9 +12,8 @@ import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.util.DeepNettsException;
 import java.io.IOException;
+import java.util.logging.Logger;
 import javax.visrec.ml.data.DataSet;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Iris Flowers Classification. 
@@ -41,7 +40,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class IrisFlowersClassificationAdvanced {
 
-    private static final Logger LOGGER = LogManager.getLogger(DeepNetts.class.getName());
+    static final Logger LOGGER = Logger.getLogger(DeepNetts.class.getName());
 
     public static void main(String[] args) throws DeepNettsException, IOException {
         // load iris data  set
@@ -82,7 +81,7 @@ public class IrisFlowersClassificationAdvanced {
         ClassificationMetrics ceResult = Evaluators.evaluateClassifier(neuralNet, trainTest.getTestSet());
         
         LOGGER.info("Classification performance measure" + System.lineSeparator());
-        LOGGER.info(ceResult);
+        LOGGER.info(ceResult.toString());
         
         // shutdown the thread pool
         DeepNetts.shutdown();            

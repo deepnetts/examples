@@ -18,8 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.logging.Logger;
 
 /**
  * Recognition of hand-written digits.
@@ -49,7 +48,7 @@ public class MnistHandwrittenDigitAdvanced {
     String labelsFile = "datasets/mnist/labels.txt"; // data set ne sme da bud elokalni - neka ga downloaduuje sa github-a - mozda visrec?
     String trainingFile = "datasets/mnist/train.txt";
 
-    private static final Logger LOGGER = LogManager.getLogger(DeepNetts.class.getName());
+    static final Logger LOGGER = Logger.getLogger(DeepNetts.class.getName());
 
     public void run() throws DeepNettsException, IOException {
 
@@ -99,12 +98,12 @@ public class MnistHandwrittenDigitAdvanced {
         LOGGER.info("------------------------------------------------");
         LOGGER.info("Classification performance measure" + System.lineSeparator());
         LOGGER.info("TOTAL AVERAGE");
-        LOGGER.info(evaluator.getMacroAverage());
+        LOGGER.info(evaluator.getMacroAverage().toString());
         LOGGER.info("By Class");
-        Map<String, ClassificationMetrics> byClass = evaluator.getPerformanceByClass();
+        Map<String, ClassificationMetrics> byClass = evaluator.getMetricsByClass();
         byClass.entrySet().stream().forEach((entry) -> {
             LOGGER.info("Class " + entry.getKey() + ":");
-            LOGGER.info(entry.getValue());
+            LOGGER.info(entry.getValue().toString());
             LOGGER.info("----------------");
         });
 

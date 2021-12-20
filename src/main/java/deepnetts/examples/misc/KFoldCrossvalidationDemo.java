@@ -1,5 +1,6 @@
 package deepnetts.examples.misc;
 
+import deepnetts.core.DeepNetts;
 import deepnetts.data.DataSets;
 import deepnetts.data.norm.MaxNormalizer;
 import deepnetts.eval.ClassifierEvaluator;
@@ -65,6 +66,9 @@ public class KFoldCrossvalidationDemo {
         
         System.out.println("Best evaluation metrics:");
         System.out.println(bestEm);
+        
+        // shutdown the thread pool
+        DeepNetts.shutdown();        
         
     }
 

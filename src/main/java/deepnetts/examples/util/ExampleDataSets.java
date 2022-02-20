@@ -15,6 +15,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -31,7 +32,7 @@ public class ExampleDataSets {
 
     public static DataSet xor() {
         DataSet dataSet = new TabularDataSet(2, 1);
-        dataSet.setColumnNames(new String[] {"col1", "col2", "col3"});
+        dataSet.setColumns( Arrays.asList(new String[] {"x1", "x2", "y"}));
 
         MLDataItem item1 = new TabularDataSet.Item(new float[] {0, 0}, new float[] {0});
         dataSet.add(item1);

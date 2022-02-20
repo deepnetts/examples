@@ -2,7 +2,8 @@ package deepnetts.examples.misc;
 
 import deepnetts.core.DeepNetts;
 import deepnetts.data.DataSets;
-import deepnetts.data.norm.MaxNormalizer;
+import deepnetts.data.TabularDataSet;
+import deepnetts.data.norm.MaxScaler;
 import deepnetts.eval.ClassifierEvaluator;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
@@ -28,11 +29,11 @@ import javax.visrec.ml.eval.EvaluationMetrics;
 public class KFoldCrossvalidationDemo {
 
     public static void main(String[] args) throws IOException {
-        DataSet dataSet = DataSets.readCsv("datasets/iris-flowers.csv", 4, 3, true);
+        TabularDataSet dataSet = DataSets.readCsv("datasets/iris-flowers.csv", 4, 3, true);
         dataSet.setColumnNames(new String[] {"petal width","petal height","sepal width","sepal height", "Setose", "Vrsicolor", "Virginica"});
 
-        MaxNormalizer norm = new MaxNormalizer(dataSet);
-        norm.normalize(dataSet);   
+        MaxScaler norm = new MaxScaler(dataSet);
+        norm.apply(dataSet);   
 
         //a  model to train/evaluate
         FeedForwardNetwork neuralNet = FeedForwardNetwork.builder()

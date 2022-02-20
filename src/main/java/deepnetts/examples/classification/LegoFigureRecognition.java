@@ -9,6 +9,7 @@ import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.util.DeepNettsException;
 import deepnetts.util.FileIO;
+import deepnetts.util.RandomGenerator;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -39,6 +40,8 @@ public class LegoFigureRecognition {
         int imageWidth = 96;
         int imageHeight = 96;
 
+        RandomGenerator.getDefault().initSeed(123);
+        
         String trainingFile = "datasets/LegoPeople/train.txt";
         String labelsFile = "datasets/LegoPeople/labels.txt";
     

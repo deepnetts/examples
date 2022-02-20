@@ -3,7 +3,7 @@ package deepnetts.examples.regression;
 import deepnetts.core.DeepNetts;
 import deepnetts.data.DataSets;
 import deepnetts.data.MLDataItem;
-import deepnetts.data.norm.MaxNormalizer;
+import deepnetts.data.norm.MaxScaler;
 import javax.visrec.ml.eval.EvaluationMetrics;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
@@ -55,8 +55,8 @@ public class CpuPerformancePrediction {
             DataSet<MLDataItem> dataSet = DataSets.readCsv(csvFilename , inputsNum, outputsNum, true);
             
             // normalize data - scale to range [0, 1] in order to feed the neural network
-            MaxNormalizer norm = new MaxNormalizer(dataSet);
-            norm.normalize(dataSet);
+            MaxScaler scaler = new MaxScaler(dataSet);
+            scaler.apply(dataSet);
     
             // split data set into the training and test set with 70% for training and 30% for test
             DataSet<MLDataItem>[] trainTest = dataSet.split(0.7, 0.3);  
@@ -91,7 +91,7 @@ public class CpuPerformancePrediction {
             
             // create a tensor object from given output array
             Tensor predictedTensor = Tensor.of(predictedOutput);
-            norm.deNormalizeOutputs(predictedTensor);
+            scaler.deNormalizeOutputs(predictedTensor);
             
             // de-normalize output here
             System.out.println("Predicted output:" + predictedTensor.toString());

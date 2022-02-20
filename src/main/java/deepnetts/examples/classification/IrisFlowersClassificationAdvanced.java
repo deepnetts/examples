@@ -3,7 +3,7 @@ package deepnetts.examples.classification;
 import deepnetts.core.DeepNetts;
 import deepnetts.data.DataSets;
 import deepnetts.data.TrainTestPair;
-import deepnetts.data.norm.MaxNormalizer;
+import deepnetts.data.norm.MaxScaler;
 import deepnetts.eval.ClassificationMetrics;
 import deepnetts.eval.Evaluators;
 import deepnetts.net.FeedForwardNetwork;
@@ -48,9 +48,9 @@ public class IrisFlowersClassificationAdvanced {
         TrainTestPair trainTest = DataSets.trainTestSplit(dataSet, 0.65);
 
         // normalize data using max normalization
-        MaxNormalizer norm = new MaxNormalizer(trainTest.getTrainingeSet());
-        norm.normalize(trainTest.getTrainingeSet());   
-        norm.normalize(trainTest.getTestSet());
+        MaxScaler scaler = new MaxScaler(trainTest.getTrainingeSet());
+        scaler.apply(trainTest.getTrainingeSet());   
+        scaler.apply(trainTest.getTestSet());
         
         // create an instance of a neural network  using builder
         FeedForwardNetwork neuralNet = FeedForwardNetwork.builder()

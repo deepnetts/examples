@@ -14,16 +14,14 @@ import deepnetts.data.DataSets;
 import deepnetts.eval.ClassifierEvaluator;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
-
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 import javax.visrec.ml.data.DataSet;
 
 /**
  * Example of hyper parameter search for classification problem.
  */
-public class HyperParamSearchRun {
+public class HyperParamSearchExample {
 
     public static void main(String[] args) throws IOException {
 
@@ -32,7 +30,7 @@ public class HyperParamSearchRun {
         boolean hasHeader = true;        
                
         DataSet dataSet = DataSets.readCsv("datasets/creditcard-balanced.csv", numInputs, numOutputs, hasHeader);
-        DataSets.normalizeMax(dataSet);
+        DataSets.scaleToMax(dataSet);
         DataSet[] trainTest = dataSet.split(0.7, 0.3);
                
         // ovaj kreira mreze i odmah mu se zadaju fiksni parametri

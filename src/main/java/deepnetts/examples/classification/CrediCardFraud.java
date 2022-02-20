@@ -11,7 +11,6 @@ import javax.visrec.ml.data.DataSet;
 import javax.visrec.ml.eval.EvaluationMetrics;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.visrec.ml.ClassificationException;
 import javax.visrec.ml.classification.BinaryClassifier;
 import javax.visrec.ri.ml.classification.FeedForwardNetBinaryClassifier;
 import deepnetts.data.MLDataItem;
@@ -52,7 +51,7 @@ public class CrediCardFraud {
         DataSet dataSet = DataSets.readCsv("datasets/creditcard-balanced.csv", numInputs, numOutputs, hasHeader);
         
         // scale data to [0, 1] range which is used by neural network
-        DataSets.normalizeMax(dataSet);
+        DataSets.scaleToMax(dataSet);
         
         // split data into training and test set
         DataSet<MLDataItem>[] trainTestSet = dataSet.split(0.6);
@@ -82,12 +81,10 @@ public class CrediCardFraud {
         BinaryClassifier<float[]> binClassifier = new FeedForwardNetBinaryClassifier(neuralNet);    
         float[] testTransaction = testSet.get(0).getInput().getValues();
         
-        try {
-            Float result = binClassifier.classify(testTransaction);
-            System.out.println("Fraud probability: "+result);            
-        } catch (ClassificationException ex) {
-            Logger.getLogger(CrediCardFraud.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        Float result = binClassifier.classify(testTransaction);
+        System.out.println("Fraud probability: "+result);            
+
         
         // shutdown the thread pool
         DeepNetts.shutdown();

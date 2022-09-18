@@ -60,21 +60,23 @@ public class DukeDetectorAdvanced {
         RandomGenerator.getDefault().initSeed(123);
         
         ImageSet imageSet = new ImageSet(imageWidth, imageHeight);
-        imageSet.setResizeStrategy(ImageResize.CENTER);
+        imageSet.setResizeStrategy(ImageResize.STRATCH);
+        imageSet.setInvertImages(true);
+        imageSet.zeroMean();        
 
         LOGGER.info("Loading images...");
         imageSet.loadLabels(new File(labelsFile));
         imageSet.loadImages(new File(trainingFile)); // point to Path
 
-        TrainTestPair trainTestPair = DataSets.trainTestSplit(imageSet, 0.8) ;
+        TrainTestPair trainTestPair = DataSets.trainTestSplit(imageSet, 0.7) ;
 
         LOGGER.info("Creating a neural network...");
 
         ConvolutionalNetwork convNet = ConvolutionalNetwork.builder()
                 .addInputLayer(imageWidth, imageHeight, 3)
-                .addConvolutionalLayer(3, Filter.size(3, 3), ActivationType.TANH)
+                .addConvolutionalLayer(32, Filter.ofSize(3, 3), ActivationType.RELU)
                 .addMaxPoolingLayer(2, 2, 2)
-                .addFullyConnectedLayer(35, ActivationType.TANH)
+                .addFullyConnectedLayer(16, ActivationType.RELU)
                 .addOutputLayer(1, ActivationType.SIGMOID)
                 .lossFunction(LossType.CROSS_ENTROPY)
                 .build();
@@ -83,7 +85,7 @@ public class DukeDetectorAdvanced {
 
         // Get a trainer of the created convolutional network
         BackpropagationTrainer trainer = convNet.getTrainer();
-        trainer.setMaxError(0.03f)
+        trainer.setStopError(0.03f)
                .setOptimizer(OptimizerType.ADAGRAD) // za ada delta skace jer bude preveliki initial learning rate
                .setLearningRate(0.001f);
         trainer.train(trainTestPair.getTrainingeSet());

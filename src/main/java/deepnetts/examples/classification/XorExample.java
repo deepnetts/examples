@@ -47,7 +47,7 @@ public class XorExample {
         
         // set training algorithm settings
         BackpropagationTrainer trainer = neuralNet.getTrainer();
-        trainer.setMaxError(0.01f);
+        trainer.setStopError(0.01f);
         trainer.setLearningRate(0.9f);
         
         // train the neural network

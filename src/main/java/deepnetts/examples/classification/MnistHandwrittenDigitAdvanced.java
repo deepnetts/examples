@@ -86,10 +86,10 @@ public class MnistHandwrittenDigitAdvanced {
         // set training options and train the network
         BackpropagationTrainer trainer = neuralNet.getTrainer();
         trainer.setLearningRate(0.001f) // za ada delta 0.00001f za rms prop 0.001
-               .setMaxError(0.03f)
+               .setStopError(0.03f)
                .setOptimizer(OptimizerType.ADAGRAD) // use adagrad optimization algorithm
                .setLearningRate(0.001f)
-               .setMaxEpochs(1000);
+               .setStopEpochs(1000);
         trainer.train(imageSets[0]);
 
         // Test/evaluate trained network to see how it perfroms with enseen data

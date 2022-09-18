@@ -32,14 +32,14 @@ public class HousePricePrediction {
             // create neural network using network specific builder
             FeedForwardNetwork neuralNet = FeedForwardNetwork.builder()
                     .addInputLayer(inputsNum)
-                    .addHiddenFullyConnectedLayers(20, 10)
+                    .addHiddenFullyConnectedLayers(40, 20)
                     .addOutputLayer(outputsNum, ActivationType.LINEAR)
                     .hiddenActivationFunction(ActivationType.TANH)                    
                     .lossFunction(LossType.MEAN_SQUARED_ERROR)                    
                     .build();
             
             neuralNet.getTrainer().setMaxError(0.006f)
-                                  .setLearningRate(0.001f);
+                                  .setLearningRate(0.0001f);
             neuralNet.train(trainTestPairSet[0]);
 
             EvaluationMetrics pm = Evaluators.evaluateRegressor(neuralNet, trainTestPairSet[1]);

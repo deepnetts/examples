@@ -9,8 +9,6 @@ import deepnetts.util.DeepNettsException;
 import java.io.IOException;
 import javax.visrec.ml.data.DataSet;
 import javax.visrec.ml.eval.EvaluationMetrics;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.visrec.ml.classification.BinaryClassifier;
 import javax.visrec.ri.ml.classification.FeedForwardNetBinaryClassifier;
 import deepnetts.data.MLDataItem;
@@ -67,8 +65,8 @@ public class CrediCardFraud {
                 .build();
   
         // set parameters of the training algorithm
-        neuralNet.getTrainer().setMaxError(0.03f)
-                              .setMaxEpochs(10000)
+        neuralNet.getTrainer().setStopError(0.03f)
+                              .setStopEpochs(10000)
                               .setLearningRate(0.001f);
      
         neuralNet.train(trainingSet);

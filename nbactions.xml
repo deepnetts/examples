@@ -10,8 +10,11 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:3.0.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-XX:MaxInlineSize=80 -Xmx10096m -classpath %classpath deepnetts.examples.classification.MnistHandwrittenDigitRecognition</exec.args>
+                <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
                 <exec.executable>java</exec.executable>
+                <exec.mainClass>deepnetts.examples.tensorflow.vggnet.VggNetInference</exec.mainClass>
+                <exec.vmArgs>-Xms7g  -XX:MaxInlineSize=50</exec.vmArgs>
+                <exec.appArgs></exec.appArgs>
             </properties>
         </action>
         <action>
@@ -24,9 +27,12 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:3.0.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -XX:MaxInlineSize=80 -Xmx10096m -classpath %classpath deepnetts.examples.classification.MnistHandwrittenDigitRecognition</exec.args>
+                <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
+                <exec.mainClass>deepnetts.examples.tensorflow.vggnet.VggNetInference</exec.mainClass>
+                <exec.vmArgs>-Xms7g  -XX:MaxInlineSize=50 -agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</exec.vmArgs>
+                <exec.appArgs></exec.appArgs>
             </properties>
         </action>
         <action>
@@ -39,8 +45,11 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-XX:MaxInlineSize=80 -Xmx10096m -classpath %classpath deepnetts.examples.classification.MnistHandwrittenDigitRecognition</exec.args>
+                <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
                 <exec.executable>java</exec.executable>
+                <exec.mainClass>deepnetts.examples.tensorflow.vggnet.VggNetInference</exec.mainClass>
+                <exec.vmArgs>-Xms7g  -XX:MaxInlineSize=50</exec.vmArgs>
+                <exec.appArgs></exec.appArgs>
             </properties>
         </action>
     </actions>

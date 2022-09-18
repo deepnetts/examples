@@ -47,9 +47,9 @@ public class CsvFile {
         return null;
     }
 
-        public static void write3D(double[][] data, String fileName) throws FileNotFoundException {
+    public static void write3D(double[][] data, String fileName) throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(fileName);
-        for(int i=0; i<data.length; i++) {
+        for (int i = 0; i < data.length; i++) {
             pw.print(data[i][0]);
             pw.print(",");
             pw.print(data[i][1]);

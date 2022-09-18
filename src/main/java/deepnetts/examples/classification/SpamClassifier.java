@@ -57,7 +57,7 @@ public class SpamClassifier {
                 .build();
 
         // set training settings
-        neuralNet.getTrainer().setMaxError(0.2f)
+        neuralNet.getTrainer().setStopError(0.3f)
                               .setLearningRate(0.001f);
         
         // start training

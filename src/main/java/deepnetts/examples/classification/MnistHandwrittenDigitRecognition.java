@@ -9,6 +9,7 @@ import deepnetts.util.DeepNettsException;
 import deepnetts.eval.ClassifierEvaluator;
 import deepnetts.eval.ConfusionMatrix;
 import deepnetts.examples.util.ExampleDataSets;
+import deepnetts.net.layers.Filter;
 import javax.visrec.ml.eval.EvaluationMetrics;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
@@ -46,8 +47,8 @@ public class MnistHandwrittenDigitRecognition {
     int imageHeight = 28;
 
     // training image index and labels
-    String labelsFile = "datasets/mnist/labels.txt"; // data set ne sme da bud elokalni - neka ga downloaduuje sa github-a - mozda visrec?
-    String trainingFile = "datasets/mnist/train.txt";
+    String labelsFile = "datasets/mnist/training/labels.txt";
+    String trainingFile = "datasets/mnist/training/train.txt";
 
     static final Logger LOGGER = Logger.getLogger(DeepNetts.class.getName());
 
@@ -60,26 +61,29 @@ public class MnistHandwrittenDigitRecognition {
         // create a data set from images and labels
         ImageSet imageSet = new ImageSet(imageWidth, imageHeight);
         imageSet.setInvertImages(true);        
+        imageSet.setGrayscale(true);
         LOGGER.info("Loading images...");
         imageSet.loadLabels(new File(labelsFile)); // file with category labels, in this case digits 0-9
-        imageSet.loadImages(new File(trainingFile), 1000); // files with list of image paths to use for training,  the second parameter is a number of images in subset of original data set
+        imageSet.loadImages(new File(trainingFile), 10000);// 1000  // files with list of image paths to use for training,  the second parameter is a number of images in subset of original data set
 
         ImageSet[] imageSets = imageSet.split(0.65, 0.35); // split data set into training and test sets in given ratio
         int labelsCount = imageSet.getLabelsCount(); // the number of image categories/classes, the number of network outputs should correspond to this
 
         LOGGER.info("Creating neural network architecture...");
 
+        // da mnist proradi lepo sa 60 000 slika, i da radi an jednom ulaznom kanalu
+        
         // create convolutional neural network architecture
         ConvolutionalNetwork neuralNet = ConvolutionalNetwork.builder()
-                .addInputLayer(imageWidth, imageHeight)
-                .addConvolutionalLayer(12, 5)
-                .addMaxPoolingLayer(2, 2)     
-                .addConvolutionalLayer(24, 5)
-                .addMaxPoolingLayer(2, 2)                   
+                .addInputLayer(imageWidth, imageHeight, 1)
+                .addConvolutionalLayer(12, Filter.ofSize(5))
+                .addMaxPoolingLayer(2, 2)   
+                .addConvolutionalLayer(24, Filter.ofSize(5))
+                .addMaxPoolingLayer(2, 2)                 
                 .addFullyConnectedLayer(60)
                 .addFullyConnectedLayer(60)
                 .addOutputLayer(labelsCount, ActivationType.SOFTMAX)
-                .hiddenActivationFunction(ActivationType.RELU)
+                .hiddenActivationFunction(ActivationType.RELU) // ovo vrati i popravi , iskljucih ga zbog optimizacija
                 .lossFunction(LossType.CROSS_ENTROPY)
                 .randomSeed(123)
                 .build();
@@ -89,7 +93,8 @@ public class MnistHandwrittenDigitRecognition {
         // set training options and train the network
         BackpropagationTrainer trainer = neuralNet.getTrainer();
         trainer.setLearningRate(0.001f)
-                .setMaxError(0.05f)
+                .setStopError(0.07f)
+//                .setStopEpochs(20)
                 .setOptimizer(OptimizerType.MOMENTUM)
                 .setMomentum(0.9f);
         trainer.train(imageSets[0]);

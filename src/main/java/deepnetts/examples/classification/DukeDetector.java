@@ -57,24 +57,26 @@ public class DukeDetector {
         String labelsFile = dataSetPath + "/labels.txt"; // path to plain file with list of labels
 
         RandomGenerator.getDefault().initSeed(123); // fix random generator to get repeatable training
-
+        DeepNetts.getInstance();
         // initialize image data set and preprocessing
         LOGGER.info("Loading images...");
         ImageSet imageSet = new ImageSet(imageWidth, imageHeight);
-        imageSet.setResizeStrategy(ImageResize.CENTER);
+        imageSet.setResizeStrategy(ImageResize.STRATCH);
+        imageSet.setInvertImages(true);
+        imageSet.zeroMean();
         imageSet.loadLabels(new File(labelsFile));
         imageSet.loadImages(new File(trainingFile)); // point to Path
 
         // split data into training and test set
-        TrainTestPair trainTestPair = DataSets.trainTestSplit(imageSet, 0.8);
+        TrainTestPair trainTestPair = DataSets.trainTestSplit(imageSet, 0.7);
 
         // create a convolutional neural network arhitecture for binary image classification
         LOGGER.info("Creating a neural network...");
         ConvolutionalNetwork convNet = ConvolutionalNetwork.builder()
                 .addInputLayer(imageWidth, imageHeight, 3)
-                .addConvolutionalLayer(6, Filter.size(3, 3), ActivationType.TANH)
-                .addMaxPoolingLayer(Filter.size(2, 2).stride(2))
-                .addFullyConnectedLayer(35, ActivationType.TANH)
+                .addConvolutionalLayer(6, Filter.ofSize(3), ActivationType.LEAKY_RELU)
+                .addMaxPoolingLayer(Filter.ofSize(2).stride(2))
+                .addFullyConnectedLayer(16, ActivationType.LEAKY_RELU)
                 .addOutputLayer(1, ActivationType.SIGMOID)
                 .lossFunction(LossType.CROSS_ENTROPY)
                 .build();
@@ -82,7 +84,7 @@ public class DukeDetector {
         // set training options and run training
         LOGGER.info("Training the neural network...");        
         BackpropagationTrainer trainer = convNet.getTrainer(); // Get a trainer of the created convolutional network
-        trainer.setMaxError(0.03f)  
+        trainer.setStopError(0.03f)  
                .setLearningRate(0.01f); 
         trainer.train(trainTestPair.getTrainingeSet()); // run training
 

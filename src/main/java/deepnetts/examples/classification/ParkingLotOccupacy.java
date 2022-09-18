@@ -50,8 +50,8 @@ public class ParkingLotOccupacy {
 
     public void run() throws DeepNettsException, IOException {
         ImageSet imageSet = new ImageSet(imageWidth, imageHeight);
-       // imageSet.setInvertImages(true); // optional image preprocessing
-       // imageSet.zeroMean();        
+        imageSet.setInvertImages(true); // optional image preprocessing
+      //  imageSet.zeroMean();        
         LOG.info("Loading images...");        
         imageSet.loadLabels(new File(labelsFile));
         imageSet.loadImages(new File(trainingFile));
@@ -66,10 +66,10 @@ public class ParkingLotOccupacy {
 
         ConvolutionalNetwork parkingNet = ConvolutionalNetwork.builder()
                                             .addInputLayer(imageWidth, imageHeight, 3)
-                                            .addConvolutionalLayer(12, Filter.size(3), ActivationType.TANH)
-                                            .addMaxPoolingLayer(Filter.size(2).stride(2))
-                                            .addFullyConnectedLayer(30, ActivationType.TANH)
-                                            .addFullyConnectedLayer(10, ActivationType.TANH)
+                                            .addConvolutionalLayer(6, Filter.ofSize(3), ActivationType.RELU)
+                                            .addMaxPoolingLayer(Filter.ofSize(2).stride(2))
+                                            .addFullyConnectedLayer(30, ActivationType.LEAKY_RELU)
+                                            .addFullyConnectedLayer(10, ActivationType.LEAKY_RELU)
                                             .addOutputLayer(1, ActivationType.SIGMOID)
                                             .lossFunction(LossType.CROSS_ENTROPY)
                                             .randomSeed(123)
@@ -80,9 +80,9 @@ public class ParkingLotOccupacy {
 
         // set training options and train the network
         BackpropagationTrainer trainer = parkingNet.getTrainer();
-        trainer.setMaxError(0.05f)
-               .setMaxEpochs(15)
-               .setLearningRate(0.001f);
+        trainer.setStopError(0.05f)
+               .setStopEpochs(15)
+               .setLearningRate(0.01f);
         trainer.train(imageSets[0]);
 
         LOG.info("Done training neural network.");

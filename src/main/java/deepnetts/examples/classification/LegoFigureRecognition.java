@@ -64,8 +64,8 @@ public class LegoFigureRecognition {
 
         ConvolutionalNetwork legoPeopleNet = ConvolutionalNetwork.builder()
                                                 .addInputLayer(imageWidth, imageHeight, 3)
-                                                .addConvolutionalLayer(12, Filter.size(5), ActivationType.TANH)
-                                                .addMaxPoolingLayer(Filter.size(2).stride(2))
+                                                .addConvolutionalLayer(12, Filter.ofSize(5), ActivationType.TANH)
+                                                .addMaxPoolingLayer(Filter.ofSize(2).stride(2))
                                                 .addFullyConnectedLayer(30, ActivationType.TANH)
                                                 .addFullyConnectedLayer(10, ActivationType.TANH)
                                                 .addOutputLayer(1, ActivationType.SIGMOID)
@@ -79,8 +79,8 @@ public class LegoFigureRecognition {
         // train convolutional network
         BackpropagationTrainer trainer = legoPeopleNet.getTrainer();
         trainer.setLearningRate(0.001f)
-                .setMaxError(0.05f)
-                .setMaxEpochs(15);
+                .setStopError(0.05f)
+                .setStopEpochs(15);
         
         trainer.train(imageSets[0]);
 

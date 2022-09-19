@@ -4,6 +4,7 @@ import deepnetts.core.DeepNetts;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
@@ -11,8 +12,11 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * Example how to use pre-trained saved VggNet16 imported from Tensorflow for inference.
@@ -33,13 +37,9 @@ public class VggNetInference {
         String userHomeDir = System.getProperty("user.home");  
         String deepNettsDir = userHomeDir + "/.deepnetts";
         String vggNetFile = deepNettsDir + "/" + "vggnet16.dnet";
-        
+
         // download pre-trained saved vggnet16 from tensorflow into local {user.home}/.deepnetts dir, if it does now allready exist there
-        downloadIfNotExists(vggNetFile, "https://drive.google.com/uc?id=1Y_Uy-6TWjdRC-onNHPbNBbf9BEel4nb7&export=download&confirm=t&uuid=07f28a6f-5244-4ec1-9c4f-e5727d5d1eb9");
-        // https://drive.google.com/uc?id=1Y_Uy-6TWjdRC-onNHPbNBbf9BEel4nb7&export=download
-        //https://drive.google.com/uc?id=1Y_Uy-6TWjdRC-onNHPbNBbf9BEel4nb7&export=download&confirm=t&uuid=07f28a6f-5244-4ec1-9c4f-e5727d5d1eb9
-        // https://drive.google.com/uc?id=1Y_Uy-6TWjdRC-onNHPbNBbf9BEel4nb7&export=download&confirm=t&uuid=07f28a6f-5244-4ec1-9c4f-e5727d5d1eb9
-        //* https://www.marstranslation.com/blog/how-to-skip-google-drive-virus-scan-warning-about-large-files
+        downloadIfNotExists(vggNetFile, "https://dl.dropboxusercontent.com/s/rp8qrmy4dd556yr/vggnet16.zip?dl=0");
 
         // create an instance of trained VGGNet16 from file 
         VggNet16 neuralNetwork = VggNet16.fromFile(vggNetFile);     
@@ -66,14 +66,14 @@ public class VggNetInference {
         if (!Files.exists(deepNettsDir)) {
             deepNettsDir.toFile().mkdir();
         }
-        
+        File zipFile = new File(deepNettsDir + "/vggnet16.zip");
         File file = new File(deepNettsDir + "/vggnet16.dnet");
         if (!file.exists()) {
             System.out.println("VggNet pre-trained network file not available on local disk, downloading it. It will take some time depending on the connection speed (file size: 2.6GB)");
-            try {
+            try {                
                 URL url = new URL(urlStr); // gde cu je uploadovati - gdrive?? stavi link ovde
                 ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-                FileOutputStream fos = new FileOutputStream(file);
+                FileOutputStream fos = new FileOutputStream(zipFile);
                 fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
                 fos.close();
                 rbc.close();
@@ -83,6 +83,30 @@ public class VggNetInference {
                 Logger.getLogger(VggNetImport.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        unzip(zipFile);
     }
+     private static void unzip(File fileToUnzip) {
+        try ( ZipFile zipFile = new ZipFile(fileToUnzip.getAbsoluteFile())) {
 
+            Enumeration<?> enu = zipFile.entries();
+            while (enu.hasMoreElements()) {
+                ZipEntry zipEntry = (ZipEntry) enu.nextElement();
+                String name = zipEntry.getName();
+                File file = Paths.get(fileToUnzip.getParent(), name).toFile();
+
+                InputStream is = zipFile.getInputStream(zipEntry);
+                FileOutputStream fos = new FileOutputStream(file);
+                byte[] bytes = new byte[4096];
+                int length;
+                while ((length = is.read(bytes)) >= 0) {
+                    fos.write(bytes, 0, length);
+                }
+                is.close();
+                fos.close();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }      
 }

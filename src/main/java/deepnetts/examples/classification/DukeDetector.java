@@ -74,7 +74,7 @@ public class DukeDetector {
         LOGGER.info("Creating a neural network...");
         ConvolutionalNetwork convNet = ConvolutionalNetwork.builder()
                 .addInputLayer(imageWidth, imageHeight, 3)
-                .addConvolutionalLayer(6, Filter.ofSize(3), ActivationType.LEAKY_RELU)
+                .addConvolutionalLayer(6, Filter.ofSize(3).stride(2), ActivationType.LEAKY_RELU)
                 .addMaxPoolingLayer(Filter.ofSize(2).stride(2))
                 .addFullyConnectedLayer(16, ActivationType.LEAKY_RELU)
                 .addOutputLayer(1, ActivationType.SIGMOID)
@@ -102,7 +102,8 @@ public class DukeDetector {
 
         // how to use recognizer for single image
         LOGGER.info("Recognizing an example duke image.");
-        BufferedImage image = ImageIO.read(new File("datasets/DukeSet/duke/duke7.jpg")); // promeni ovu sliku i ubaci u resources!
+        
+        BufferedImage image = ImageIO.read(new File("datasets/DukeSet/duke/duke7.jpg"));
         ImageClassifier<BufferedImage> imageClassifier = new ImageClassifierNetwork(convNet);
         Map<String, Float> results = imageClassifier.classify(image); // result is a map with image labels as keys and coresponding probability
         LOGGER.info(results.toString());

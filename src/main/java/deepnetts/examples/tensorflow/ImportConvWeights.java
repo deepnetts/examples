@@ -3,12 +3,14 @@ package deepnetts.examples.tensorflow;
 import deepnetts.util.TensorflowUtils;
 import deepnetts.core.DeepNetts;
 import deepnetts.data.ImageSet;
+import deepnetts.examples.util.ExampleDataSets;
 import deepnetts.net.ConvolutionalNetwork;
 import deepnetts.net.layers.Filter;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.logging.Logger;
 import javax.visrec.ml.eval.EvaluationMetrics;
 
@@ -37,6 +39,8 @@ public class ImportConvWeights {
         network.save("deepnettsWithImportedWeights.dnet");
         
         // step 4: testing the network with imported weights with dataset          
+        // download MNIST data set from github
+        Path mnistPath = ExampleDataSets.downloadMnistDataSet();   
         // create a data set from images and labels
         ImageSet imageSet = new ImageSet(28, 28);
         imageSet.setGrayscale(true);

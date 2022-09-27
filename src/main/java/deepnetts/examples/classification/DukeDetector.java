@@ -74,11 +74,12 @@ public class DukeDetector {
         LOGGER.info("Creating a neural network...");
         ConvolutionalNetwork convNet = ConvolutionalNetwork.builder()
                 .addInputLayer(imageWidth, imageHeight, 3)
-                .addConvolutionalLayer(6, Filter.ofSize(3).stride(2), ActivationType.LEAKY_RELU)
+                .addConvolutionalLayer(6, Filter.ofSize(3))
                 .addMaxPoolingLayer(Filter.ofSize(2).stride(2))
-                .addFullyConnectedLayer(16, ActivationType.LEAKY_RELU)
+                .addFullyConnectedLayer(16)
                 .addOutputLayer(1, ActivationType.SIGMOID)
                 .lossFunction(LossType.CROSS_ENTROPY)
+                .hiddenActivationFunction(ActivationType.LEAKY_RELU)
                 .build();
 
         // set training options and run training

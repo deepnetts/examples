@@ -28,7 +28,7 @@ public class LoadAndUseTrainedNetwork {
             // classify image and get probabilities for each category label
             Map<String, Float> results = imageClassifier.classify(Paths.get("someImage.png"));
 
-            System.out.println(results.toString());
+            System.out.println(results);
 
         } catch (IOException | ClassNotFoundException ioe) {
             Logger.getLogger(LoadAndUseTrainedNetwork.class.getName()).log(Level.SEVERE, null, ioe);

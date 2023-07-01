@@ -66,7 +66,7 @@ public class ParkingLotOccupacy {
 
         ConvolutionalNetwork parkingNet = ConvolutionalNetwork.builder()
                                             .addInputLayer(imageWidth, imageHeight, 3)
-                                            .addConvolutionalLayer(6, Filter.ofSize(3), ActivationType.RELU)
+                                            .addConvolutionalLayer(6, Filter.ofSize(3), ActivationType.LEAKY_RELU)
                                             .addMaxPoolingLayer(Filter.ofSize(2).stride(2))
                                             .addFullyConnectedLayer(30, ActivationType.LEAKY_RELU)
                                             .addFullyConnectedLayer(10, ActivationType.LEAKY_RELU)

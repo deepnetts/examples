@@ -3,7 +3,6 @@ package deepnetts.examples.regression;
 import deepnetts.examples.util.CsvFile;
 import deepnetts.examples.util.Plot;
 import deepnetts.data.DataSets;
-import deepnetts.data.TabularDataSet;
 import javax.visrec.ml.eval.EvaluationMetrics;
 import deepnetts.eval.Evaluators;
 import deepnetts.net.FeedForwardNetwork;
@@ -49,9 +48,9 @@ public class LinearRegression {
                     .build();
 
             BackpropagationTrainer trainer = neuralNet.getTrainer();
-            trainer.setMaxError(0.002f)
-                    .setMaxEpochs(10000)
-                    .setLearningRate(0.01f);
+            trainer.setStopError(0.002f)
+                   .setStopEpochs(10000)
+                   .setLearningRate(0.01f);
 
             // train network using loaded data set
             neuralNet.train(dataSet);
@@ -62,7 +61,7 @@ public class LinearRegression {
 
             // print out learned model
             float slope = neuralNet.getLayers().get(1).getWeights().get(0);
-            float intercept = neuralNet.getLayers().get(1).getBiases()[0];
+            float intercept = neuralNet.getLayers().get(1).getBiases().get(0);
             
             System.out.println("Original function: y = 0.5 * x + 0.2");
             System.out.println("Estimated/learned function: y = "+slope+" * x + "+intercept);

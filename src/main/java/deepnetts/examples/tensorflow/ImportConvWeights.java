@@ -11,7 +11,6 @@ import deepnetts.net.loss.LossType;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.logging.Logger;
 import javax.visrec.ml.eval.EvaluationMetrics;
 
 /**

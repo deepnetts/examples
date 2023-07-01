@@ -43,10 +43,11 @@ public final class VggNet16 {
        
     static int maxIdxOf(Tensor prediction) {
         int maxIdx = -1;
-        float maxVal = 0;
+        float max = 0;
+        final float[] predictions = prediction.getValues();
         for(int i=0; i<prediction.size(); i++) {
-            if (prediction.get(i) > maxVal) {
-                maxVal = prediction.get(i);
+            if (predictions[i] > max) {
+                max = predictions[i];
                 maxIdx = i;
             }
         } 

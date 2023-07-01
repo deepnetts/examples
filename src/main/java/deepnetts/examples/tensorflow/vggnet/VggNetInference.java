@@ -33,26 +33,40 @@ import java.util.zip.ZipFile;
 public class VggNetInference {
     
     public static void main(String[] args) throws IOException, ClassNotFoundException {    
+        DeepNetts.getInstance().setUseCuda(true);
         // vgg net file {user.home}/.deepnetts/vggnet16.dnet
         String userHomeDir = System.getProperty("user.home");  
         String deepNettsDir = userHomeDir + "/.deepnetts";
         String vggNetFile = deepNettsDir + "/" + "vggnet16.dnet";
 
         // download pre-trained saved vggnet16 from tensorflow into local {user.home}/.deepnetts dir, if it does now allready exist there
-        downloadIfNotExists(vggNetFile, "https://dl.dropboxusercontent.com/s/rp8qrmy4dd556yr/vggnet16.zip?dl=0");
+        //downloadIfNotExists(vggNetFile, "https://dl.dropboxusercontent.com/s/rp8qrmy4dd556yr/vggnet16.zip?dl=0");
 
         // create an instance of trained VGGNet16 from file 
-        VggNet16 neuralNetwork = VggNet16.fromFile(vggNetFile);     
-        
+        VggNet16 neuralNetwork = VggNet16.fromFile(vggNetFile); 
+
+        VggNet16InputImage vggInputImage = new VggNet16InputImage("datasets/test_vgg/airplane.jpg");
         // guess/predict a label for the given image (specified as path to the image)
-        String label = neuralNetwork.guessLabel("datasets/test_vgg/airplane.jpg"); // change this path to an image to test other images/objects           
+        // warmup
+
+        //String label = neuralNetwork.guessLabel("datasets/test_vgg/airplane.jpg"); // change this path to an image to test other images/objects           
+       String label = neuralNetwork.guessLabel(vggInputImage); // 
        
+       long startTime = System.currentTimeMillis(); 
+       label = neuralNetwork.guessLabel(vggInputImage); // change this path to an image to test other images/objects           
+                  
+     //   label = neuralNetwork.guessLabel("datasets/test_vgg/airplane.jpg");
+               long stopTime = System.currentTimeMillis();
+     //   System.exit(0);
+        System.out.println("This image contains: " + label + " time:" + (stopTime-startTime));
         // print predicted label
         System.out.println("This image contains: " + label);
         
         // shutdown the deep netts thread pool
         DeepNetts.shutdown();
     }
+    
+  
 
     /**
      * Checks if specifed file exists, and if not downloads it from specified url to {user.home}/.deepnetts
@@ -110,3 +124,5 @@ public class VggNetInference {
         }
     }      
 }
+
+// This image contains:  airliner time:10687

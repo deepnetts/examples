@@ -1,5 +1,6 @@
 package deepnetts.examples.tensorflow.vggnet;
 
+import deepnetts.core.DeepNetts;
 import deepnetts.util.TensorflowUtils;
 import deepnetts.net.ConvolutionalNetwork;
 import deepnetts.net.layers.Filter;
@@ -34,7 +35,7 @@ import java.util.zip.ZipFile;
  */
 public class VggNetImport {
     public static void main(String[] args) throws IOException {
-        
+
         // step 1: create the vggnet neural network architecture that will import weights
         ConvolutionalNetwork vggNet16 = ConvolutionalNetwork.builder()
                 .addInputLayer(224, 224, 3)

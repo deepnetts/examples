@@ -65,7 +65,7 @@ public class CrediCardFraud {
                 .build();
   
         // set parameters of the training algorithm
-        neuralNet.getTrainer().setStopError(0.03f)
+        neuralNet.getTrainer().setStopError(0.2f)
                               .setStopEpochs(10000)
                               .setLearningRate(0.001f);
      

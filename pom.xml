@@ -44,7 +44,7 @@
         <dependency>
             <groupId>com.deepnetts</groupId>
             <artifactId>deepnetts-core-pro</artifactId>
-            <version>3.0.0</version>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>com.deepnetts</groupId>
@@ -67,13 +67,8 @@
 ----------------------------
 For JitWatch
 
--XX:+UnlockDiagnosticVMOptions
--XX:MaxInlineSize=80
--XX:+LogCompilation
--XX:+TraceClassLoading
--XX:+RangeCheckElimination
--XX:+TraceClassLoading
+-XX:+UnlockDiagnosticVMOptions -XX:+TraceClassLoading -XX:+LogCompilation -XX:+PrintAssembly
 
-
+-XX:MaxInlineSize=230 -XX:+UnlockDiagnosticVMOptions -XX:+TraceClassLoading -XX:+LogCompilation -XX:+PrintAssembly
 </description>
 </project>

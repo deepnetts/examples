@@ -64,7 +64,7 @@ public class MnistHandwrittenDigitRecognition {
         imageSet.setGrayscale(true);
         LOGGER.info("Loading images...");
         imageSet.loadLabels(new File(labelsFile)); // file with category labels, in this case digits 0-9
-        imageSet.loadImages(new File(trainingFile), 10000);// 1000  // files with list of image paths to use for training,  the second parameter is a number of images in subset of original data set
+        imageSet.loadImages(new File(trainingFile), 1000);// 1000  // files with list of image paths to use for training,  the second parameter is a number of images in subset of original data set
 
         ImageSet[] imageSets = imageSet.split(0.65, 0.35); // split data set into training and test sets in given ratio
         int labelsCount = imageSet.getLabelsCount(); // the number of image categories/classes, the number of network outputs should correspond to this
@@ -93,10 +93,11 @@ public class MnistHandwrittenDigitRecognition {
         // set training options and train the network
         BackpropagationTrainer trainer = neuralNet.getTrainer();
         trainer.setLearningRate(0.001f)
-                .setStopError(0.07f)
+                .setStopError(0.02f)
+                .setStopAccuracy(0.99f);
 //                .setStopEpochs(20)
-                .setOptimizer(OptimizerType.MOMENTUM)
-                .setMomentum(0.9f);
+          //      .setOptimizer(OptimizerType.MOMENTUM)
+            //    .setMomentum(0.7f);
         trainer.train(imageSets[0]);
 
         // Test/evaluate trained network to see how it perfroms with enseen data

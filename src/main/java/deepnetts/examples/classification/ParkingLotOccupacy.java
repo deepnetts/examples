@@ -4,6 +4,7 @@ import deepnetts.core.DeepNetts;
 import deepnetts.data.ImageSet;
 import deepnetts.net.ConvolutionalNetwork;
 import deepnetts.net.layers.Filter;
+import deepnetts.net.layers.Filters;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
@@ -66,8 +67,8 @@ public class ParkingLotOccupacy {
 
         ConvolutionalNetwork parkingNet = ConvolutionalNetwork.builder()
                                             .addInputLayer(imageWidth, imageHeight, 3)
-                                            .addConvolutionalLayer(6, Filter.ofSize(3), ActivationType.LEAKY_RELU)
-                                            .addMaxPoolingLayer(Filter.ofSize(2).stride(2))
+                                            .addConvolutionalLayer(6, Filters.ofSize(3), ActivationType.LEAKY_RELU)
+                                            .addMaxPoolingLayer(Filters.ofSize(2).stride(2))
                                             .addFullyConnectedLayer(30, ActivationType.LEAKY_RELU)
                                             .addFullyConnectedLayer(10, ActivationType.LEAKY_RELU)
                                             .addOutputLayer(1, ActivationType.SIGMOID)

@@ -10,6 +10,7 @@ import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.eval.ConfusionMatrix;
 import deepnetts.net.layers.Filter;
+import deepnetts.net.layers.Filters;
 import deepnetts.net.loss.LossType;
 import deepnetts.util.FileIO;
 import deepnetts.util.ImageResize;
@@ -74,8 +75,8 @@ public class DukeDetector {
         LOGGER.info("Creating a neural network...");
         ConvolutionalNetwork convNet = ConvolutionalNetwork.builder()
                 .addInputLayer(imageWidth, imageHeight, 3)
-                .addConvolutionalLayer(6, Filter.ofSize(3))
-                .addMaxPoolingLayer(Filter.ofSize(2).stride(2))
+                .addConvolutionalLayer(6, Filters.ofSize(3))
+                .addMaxPoolingLayer(Filters.ofSize(2).stride(2))
                 .addFullyConnectedLayer(16)
                 .addOutputLayer(1, ActivationType.SIGMOID)
                 .lossFunction(LossType.CROSS_ENTROPY)

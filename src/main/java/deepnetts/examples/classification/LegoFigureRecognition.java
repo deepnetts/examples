@@ -4,6 +4,7 @@ import deepnetts.core.DeepNetts;
 import deepnetts.data.ImageSet;
 import deepnetts.net.ConvolutionalNetwork;
 import deepnetts.net.layers.Filter;
+import deepnetts.net.layers.Filters;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
@@ -64,8 +65,8 @@ public class LegoFigureRecognition {
 
         ConvolutionalNetwork legoPeopleNet = ConvolutionalNetwork.builder()
                                                 .addInputLayer(imageWidth, imageHeight, 3)
-                                                .addConvolutionalLayer(12, Filter.ofSize(5), ActivationType.TANH)
-                                                .addMaxPoolingLayer(Filter.ofSize(2).stride(2))
+                                                .addConvolutionalLayer(12, Filters.ofSize(5), ActivationType.TANH)
+                                                .addMaxPoolingLayer(Filters.ofSize(2).stride(2))
                                                 .addFullyConnectedLayer(30, ActivationType.TANH)
                                                 .addFullyConnectedLayer(10, ActivationType.TANH)
                                                 .addOutputLayer(1, ActivationType.SIGMOID)

@@ -10,6 +10,7 @@ import deepnetts.eval.ClassifierEvaluator;
 import deepnetts.eval.ConfusionMatrix;
 import deepnetts.examples.util.ExampleDataSets;
 import deepnetts.net.layers.Filter;
+import deepnetts.net.layers.Filters;
 import javax.visrec.ml.eval.EvaluationMetrics;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
@@ -76,14 +77,14 @@ public class MnistHandwrittenDigitRecognition {
         // create convolutional neural network architecture
         ConvolutionalNetwork neuralNet = ConvolutionalNetwork.builder()
                 .addInputLayer(imageWidth, imageHeight, 1)
-                .addConvolutionalLayer(12, Filter.ofSize(5))
+                .addConvolutionalLayer(12, Filters.ofSize(5))
                 .addMaxPoolingLayer(2, 2)   
-                .addConvolutionalLayer(24, Filter.ofSize(5))
+                .addConvolutionalLayer(24, Filters.ofSize(5))
                 .addMaxPoolingLayer(2, 2)                 
                 .addFullyConnectedLayer(60)
                 .addFullyConnectedLayer(60)
                 .addOutputLayer(labelsCount, ActivationType.SOFTMAX)
-                .hiddenActivationFunction(ActivationType.RELU) // ovo vrati i popravi , iskljucih ga zbog optimizacija
+                .hiddenActivationFunction(ActivationType.RELU)
                 .lossFunction(LossType.CROSS_ENTROPY)
                 .randomSeed(123)
                 .build();

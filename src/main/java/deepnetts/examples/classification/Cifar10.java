@@ -10,6 +10,7 @@ import deepnetts.util.DeepNettsException;
 import deepnetts.eval.ClassifierEvaluator;
 import deepnetts.eval.ConfusionMatrix;
 import deepnetts.net.layers.Filter;
+import deepnetts.net.layers.Filters;
 import javax.visrec.ml.eval.EvaluationMetrics;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
@@ -69,11 +70,11 @@ public class Cifar10 {
         // create convolutional neural network architecture
         ConvolutionalNetwork neuralNet = ConvolutionalNetwork.builder()
                 .addInputLayer(imageWidth, imageHeight)
-                .addConvolutionalLayer(3, Filter.ofSize(3))
+                .addConvolutionalLayer(3, Filters.ofSize(3))
                 .addMaxPoolingLayer(2, 2)     //16
-                .addConvolutionalLayer(12, Filter.ofSize(3))
+                .addConvolutionalLayer(12, Filters.ofSize(3))
                 .addMaxPoolingLayer(2, 2)   // 8
-                .addConvolutionalLayer(24, Filter.ofSize(3))
+                .addConvolutionalLayer(24, Filters.ofSize(3))
                 .addMaxPoolingLayer(2, 2)     //4           
 //                .addConvolutionalLayer(24, 5)
 //                .addMaxPoolingLayer(2, 2)     // 2

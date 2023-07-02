@@ -4,6 +4,7 @@ import deepnetts.core.DeepNetts;
 import deepnetts.util.TensorflowUtils;
 import deepnetts.net.ConvolutionalNetwork;
 import deepnetts.net.layers.Filter;
+import deepnetts.net.layers.Filters;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 import java.io.File;
@@ -39,27 +40,27 @@ public class VggNetImport {
         // step 1: create the vggnet neural network architecture that will import weights
         ConvolutionalNetwork vggNet16 = ConvolutionalNetwork.builder()
                 .addInputLayer(224, 224, 3)
-                .addConvolutionalLayer(64, Filter.ofSize(3))
-                .addConvolutionalLayer(64, Filter.ofSize(3))
+                .addConvolutionalLayer(64, Filters.ofSize(3))
+                .addConvolutionalLayer(64, Filters.ofSize(3))
                 .addMaxPoolingLayer(2, 2)
 
-                .addConvolutionalLayer(128, Filter.ofSize(3))
-                .addConvolutionalLayer(128, Filter.ofSize(3))
+                .addConvolutionalLayer(128, Filters.ofSize(3))
+                .addConvolutionalLayer(128, Filters.ofSize(3))
                 .addMaxPoolingLayer(2, 2)  
                 
-                .addConvolutionalLayer(256, Filter.ofSize(3))
-                .addConvolutionalLayer(256, Filter.ofSize(3))
-                .addConvolutionalLayer(256, Filter.ofSize(3))
+                .addConvolutionalLayer(256, Filters.ofSize(3))
+                .addConvolutionalLayer(256, Filters.ofSize(3))
+                .addConvolutionalLayer(256, Filters.ofSize(3))
                 .addMaxPoolingLayer(2, 2) 
 
-                .addConvolutionalLayer(512, Filter.ofSize(3))
-                .addConvolutionalLayer(512, Filter.ofSize(3))
-                .addConvolutionalLayer(512, Filter.ofSize(3))
+                .addConvolutionalLayer(512, Filters.ofSize(3))
+                .addConvolutionalLayer(512, Filters.ofSize(3))
+                .addConvolutionalLayer(512, Filters.ofSize(3))
                 .addMaxPoolingLayer(2, 2)    
                 
-                .addConvolutionalLayer(512, Filter.ofSize(3))
-                .addConvolutionalLayer(512, Filter.ofSize(3))
-                .addConvolutionalLayer(512, Filter.ofSize(3))
+                .addConvolutionalLayer(512, Filters.ofSize(3))
+                .addConvolutionalLayer(512, Filters.ofSize(3))
+                .addConvolutionalLayer(512, Filters.ofSize(3))
                 .addMaxPoolingLayer(2, 2)                 
                 
                 .addFullyConnectedLayer(4096)

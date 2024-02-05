@@ -22,7 +22,7 @@ import javax.visrec.ml.eval.EvaluationMetrics;
  * https://www.deepnetts.com/download
  *
  * Step-by-step guide for setting up Deep Netts is available at
- * https://www.deepnetts.com/getting-started
+ * https://www.deepnetts.com/quickstart
  * 
  * @author Zoran Sevarac <zoran.sevarac@deepnetts.com>
  */
@@ -35,7 +35,7 @@ public class KFoldCrossvalidationDemo {
         MaxScaler norm = new MaxScaler(dataSet);
         norm.apply(dataSet);   
 
-        //a  model to train/evaluate
+        // create model to train
         FeedForwardNetwork neuralNet = FeedForwardNetwork.builder()
                                             .addInputLayer(4)
                                             .addFullyConnectedLayer(20, ActivationType.TANH)
@@ -45,9 +45,9 @@ public class KFoldCrossvalidationDemo {
                                             .build();
 
         BackpropagationTrainer trainer = neuralNet.getTrainer();
-        trainer.setMaxError(0.01f)
+        trainer.setStopError(0.01f)
                .setLearningRate(0.1f)
-               .setMaxEpochs(2000);
+               .setStopEpochs(2000);
 
         ClassifierEvaluator evaluator = new ClassifierEvaluator();
 

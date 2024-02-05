@@ -24,7 +24,7 @@ import javax.visrec.ri.ml.classification.FeedForwardNetBinaryClassifier;
  * https://www.deepnetts.com/download
  *
  * Step-by-step guide for setting up Deep Netts is available at
- * https://www.deepnetts.com/getting-started
+ * https://www.deepnetts.com/quickstart
  * 
  * @see FeedForwardNetwork
  * @author Zoran Sevarac <zoran.sevarac@deepnetts.com>
@@ -50,7 +50,7 @@ public class SpamClassifier {
         // create instance of feed forward neural network using its builder
         FeedForwardNetwork neuralNet = FeedForwardNetwork.builder()
                 .addInputLayer(numInputs)
-                .addFullyConnectedLayer(25, ActivationType.TANH)
+                .addFullyConnectedLayer(25, ActivationType.RELU)
                 .addOutputLayer(numOutputs, ActivationType.SIGMOID)
                 .lossFunction(LossType.CROSS_ENTROPY)
                 .randomSeed(123)

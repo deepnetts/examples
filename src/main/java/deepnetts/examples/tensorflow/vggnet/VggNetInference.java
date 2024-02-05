@@ -33,14 +33,14 @@ import java.util.zip.ZipFile;
 public class VggNetInference {
     
     public static void main(String[] args) throws IOException, ClassNotFoundException {    
-        DeepNetts.getInstance().setUseCuda(true);
+        DeepNetts.getInstance().setUseCuda(false);
         // vgg net file {user.home}/.deepnetts/vggnet16.dnet
         String userHomeDir = System.getProperty("user.home");  
         String deepNettsDir = userHomeDir + "/.deepnetts";
         String vggNetFile = deepNettsDir + "/" + "vggnet16.dnet";
 
         // download pre-trained saved vggnet16 from tensorflow into local {user.home}/.deepnetts dir, if it does now allready exist there
-        //downloadIfNotExists(vggNetFile, "https://dl.dropboxusercontent.com/s/rp8qrmy4dd556yr/vggnet16.zip?dl=0");
+        downloadIfNotExists(vggNetFile, "https://dl.dropboxusercontent.com/s/rp8qrmy4dd556yr/vggnet16.zip?dl=1");
 
         // create an instance of trained VGGNet16 from file 
         VggNet16 neuralNetwork = VggNet16.fromFile(vggNetFile); 

@@ -3,7 +3,7 @@ package deepnetts.examples.classification;
 import deepnetts.core.DeepNetts;
 import deepnetts.data.DataSets;
 import deepnetts.data.ImageSet;
-import deepnetts.data.TrainTestPair;
+import deepnetts.data.TrainTestSplit;
 import deepnetts.eval.ClassificationMetrics;
 import deepnetts.net.ConvolutionalNetwork;
 import deepnetts.net.layers.activation.ActivationType;
@@ -38,7 +38,7 @@ import javax.visrec.ri.ml.classification.ImageClassifierNetwork;
  * https://www.deepnetts.com/download
  *
  * Step-by-step guide for setting up Deep Netts is available at
- * https://www.deepnetts.com/getting-started
+ * https://www.deepnetts.com/quickstart
  * 
  * @see ConvolutionalNetwork
  * @see ImageSet
@@ -69,7 +69,7 @@ public class DukeDetectorAdvanced {
         imageSet.loadLabels(new File(labelsFile));
         imageSet.loadImages(new File(trainingFile)); // point to Path
 
-        TrainTestPair trainTestPair = DataSets.trainTestSplit(imageSet, 0.7) ;
+        TrainTestSplit trainTestPair = DataSets.trainTestSplit(imageSet, 0.7) ;
 
         LOGGER.info("Creating a neural network...");
 
@@ -89,7 +89,7 @@ public class DukeDetectorAdvanced {
         trainer.setStopError(0.03f)
                .setOptimizer(OptimizerType.ADAGRAD) // za ada delta skace jer bude preveliki initial learning rate
                .setLearningRate(0.001f);
-        trainer.train(trainTestPair.getTrainingeSet());
+        trainer.train(trainTestPair.getTrainingSet());
 
         LOGGER.info("Saving the trained neural network.");
         // save trained neural network to file

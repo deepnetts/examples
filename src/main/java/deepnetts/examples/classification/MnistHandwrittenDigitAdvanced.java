@@ -34,7 +34,7 @@ import java.util.logging.Logger;
  * https://www.deepnetts.com/download
  *
  * Step-by-step guide for setting up Deep Netts is available at
- * https://www.deepnetts.com/getting-started
+ * https://www.deepnetts.com/quickstart
  * 
  * @author Zoran Sevarac <zoran.sevarac@deepnetts.com>
  */

@@ -3,7 +3,6 @@ package deepnetts.examples.classification;
 import deepnetts.core.DeepNetts;
 import deepnetts.data.ImageSet;
 import deepnetts.net.ConvolutionalNetwork;
-import deepnetts.net.layers.Filter;
 import deepnetts.net.layers.Filters;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
@@ -29,33 +28,33 @@ import javax.visrec.ml.eval.EvaluationMetrics;
  * https://www.deepnetts.com/download
  *
  * Step-by-step guide for setting up Deep Netts is available at
- * https://www.deepnetts.com/getting-started
+ * https://www.deepnetts.com/quickstart
  * 
  * Step by step tutorial using Deep Nets GUI
  * https://www.deepnetts.com/blog/parking-lot-occupancy-detection-using-deep-learning-in-java.html
  * 
- * @author Zoran Sevarac <zoran.sevarac@deepnetts.com>
  */
-public class ParkingLotOccupacy {
+public class ParkingLotOccupancyDetection {
     
     // dimensions of input images
     int imageWidth = 96;
     int imageHeight = 96;
-
+  //  e ovde nije dobra putanja
     // to run this example you need to download the data set from http://cnrpark.it/
-    String trainingFile = "D:/datasets/Parkiranje/A/index.txt"; // seth local paths to these files
-    String labelsFile = "D:/datasets/Parkiranje/A/labels.txt";
+  //  String trainingFile = "D:/datasets/Parkiranje/A/index.txt"; // seth local paths to these files
+    //String labelsFile = "D:/datasets/Parkiranje/A/labels.txt";
 
     static final Logger LOG = Logger.getLogger(DeepNetts.class.getName());
 
 
     public void run() throws DeepNettsException, IOException {
-        ImageSet imageSet = new ImageSet(imageWidth, imageHeight);
+       // zameni sa direktorijumom da ne moraju da se specificiraju labele i slike nego da to radi automatski
+        ImageSet imageSet = new ImageSet(imageWidth, imageHeight, "D:/datasets/Parkiranje/A");
         imageSet.setInvertImages(true); // optional image preprocessing
       //  imageSet.zeroMean();        
         LOG.info("Loading images...");        
-        imageSet.loadLabels(new File(labelsFile));
-        imageSet.loadImages(new File(trainingFile));
+       // imageSet.loadLabels(new File(labelsFile));
+       // imageSet.loadImages(new File(trainingFile));
         imageSet.shuffle();
 
         ImageSet[] imageSets = imageSet.split(0.60, 0.40);
@@ -95,7 +94,7 @@ public class ParkingLotOccupacy {
         try {
             FileIO.writeToFile(parkingNet, "legoPeople.net");
         } catch (IOException ex) {
-            Logger.getLogger(ParkingLotOccupacy.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ParkingLotOccupancyDetection.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // shutdown the thread pool
@@ -106,9 +105,9 @@ public class ParkingLotOccupacy {
 
     public static void main(String[] args) {
         try {
-            (new ParkingLotOccupacy()).run();
+            (new ParkingLotOccupancyDetection()).run();
         } catch (DeepNettsException | IOException ex) {
-            Logger.getLogger(ParkingLotOccupacy.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ParkingLotOccupancyDetection.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 

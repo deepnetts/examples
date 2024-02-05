@@ -9,7 +9,6 @@ import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.util.DeepNettsException;
 import deepnetts.eval.ClassifierEvaluator;
 import deepnetts.eval.ConfusionMatrix;
-import deepnetts.net.layers.Filter;
 import deepnetts.net.layers.Filters;
 import javax.visrec.ml.eval.EvaluationMetrics;
 import deepnetts.net.layers.activation.ActivationType;
@@ -36,7 +35,7 @@ import java.util.logging.Logger;
  * https://www.deepnetts.com/download
  *
  * Step-by-step guide for setting up Deep Netts is available at
- * https://www.deepnetts.com/getting-started
+ * https://www.deepnetts.com/quickstart
  * 
  * @author Zoran Sevarac <zoran.sevarac@deepnetts.com>
  */
@@ -60,7 +59,7 @@ public class Cifar10 {
       //  imageSet.setInvertImages(true);        
         LOGGER.info("Loading images...");
         imageSet.loadLabels(new File(labelsFile)); // file with category labels, in this case digits 0-9
-        imageSet.loadImages(new File(trainingFile)); // 10000 files with list of image paths to use for training,  the second parameter is a number of images in subset of original data set
+        imageSet.loadImages(new File(trainingFile), 10000); // 10000 files with list of image paths to use for training,  the second parameter is a number of images in subset of original data set
 
         ImageSet[] imageSets = imageSet.split(0.65, 0.35); // split data set into training and test sets in given ratio
         int labelsCount = imageSet.getLabelsCount(); // the number of image categories/classes, the number of network outputs should correspond to this
@@ -93,7 +92,7 @@ public class Cifar10 {
         // set training options and train the network
         BackpropagationTrainer trainer = neuralNet.getTrainer();
         trainer.setLearningRate(0.001f)
-                .setStopError(0.09f)
+                .setStopError(0.03f)
                 .setStopAccuracy(0.95f)
                 .setOptimizer(OptimizerType.MOMENTUM)
                 .setMomentum(0.7f);

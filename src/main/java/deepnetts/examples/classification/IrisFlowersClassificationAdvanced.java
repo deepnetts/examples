@@ -2,7 +2,7 @@ package deepnetts.examples.classification;
 
 import deepnetts.core.DeepNetts;
 import deepnetts.data.DataSets;
-import deepnetts.data.TrainTestPair;
+import deepnetts.data.TrainTestSplit;
 import deepnetts.data.norm.MaxScaler;
 import deepnetts.eval.ClassificationMetrics;
 import deepnetts.eval.Evaluators;
@@ -36,7 +36,7 @@ import javax.visrec.ml.data.DataSet;
  * https://www.deepnetts.com/download
  *
  * Step-by-step guide for setting up Deep Netts is available at
- * https://www.deepnetts.com/getting-started
+ * https://www.deepnetts.com/quickstart
  * 
  * @see FeedForwardNetwork
  */
@@ -47,11 +47,11 @@ public class IrisFlowersClassificationAdvanced {
     public static void main(String[] args) throws DeepNettsException, IOException {
         // load iris data  set
         DataSet dataSet = DataSets.readCsv("datasets/iris-flowers.csv", 4, 3, true, ",");
-        TrainTestPair trainTest = DataSets.trainTestSplit(dataSet, 0.65);
+        TrainTestSplit trainTest = DataSets.trainTestSplit(dataSet, 0.65);
 
         // normalize data using max normalization
-        MaxScaler scaler = new MaxScaler(trainTest.getTrainingeSet());
-        scaler.apply(trainTest.getTrainingeSet());   
+        MaxScaler scaler = new MaxScaler(trainTest.getTrainingSet());
+        scaler.apply(trainTest.getTrainingSet());   
         scaler.apply(trainTest.getTestSet());
         
         // create an instance of a neural network  using builder
@@ -78,7 +78,7 @@ public class IrisFlowersClassificationAdvanced {
                       
        // trainer.setExtendedLogging(true);
              
-        trainer.train(trainTest.getTrainingeSet());
+        trainer.train(trainTest.getTrainingSet());
 
         ClassificationMetrics ceResult = Evaluators.evaluateClassifier(neuralNet, trainTest.getTestSet());
         

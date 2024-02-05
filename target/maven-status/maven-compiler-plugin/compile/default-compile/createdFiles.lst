@@ -5,7 +5,10 @@ deepnetts\examples\classification\LegoFigureRecognition.class
 deepnetts\examples\util\CsvFile.class
 deepnetts\examples\classification\MnistHandwrittenDigitRecognition.class
 deepnetts\examples\classification\IrisFlowersClassification.class
+deepnetts\examples\misc\DebugExample.class
+deepnetts\examples\classification\ParkingLotOccupancyDetection.class
 deepnetts\examples\tensorflow\vggnet\VggNet16.class
+deepnetts\examples\misc\HiddenLayersSearchExample.class
 deepnetts\examples\classification\DukeDetector.class
 deepnetts\examples\tensorflow\vggnet\VggNetInference.class
 deepnetts\examples\classification\Cifar10.class
@@ -26,4 +29,3 @@ deepnetts\examples\regression\SweedenAutoInsurance.class
 deepnetts\examples\regression\HousePricePrediction.class
 deepnetts\examples\tensorflow\ImportFFNWeights.class
 deepnetts\examples\util\Plot.class
-deepnetts\examples\classification\ParkingLotOccupacy.class

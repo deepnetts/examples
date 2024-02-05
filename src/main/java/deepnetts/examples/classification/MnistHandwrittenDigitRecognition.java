@@ -9,7 +9,6 @@ import deepnetts.util.DeepNettsException;
 import deepnetts.eval.ClassifierEvaluator;
 import deepnetts.eval.ConfusionMatrix;
 import deepnetts.examples.util.ExampleDataSets;
-import deepnetts.net.layers.Filter;
 import deepnetts.net.layers.Filters;
 import javax.visrec.ml.eval.EvaluationMetrics;
 import deepnetts.net.layers.activation.ActivationType;
@@ -37,9 +36,8 @@ import java.util.logging.Logger;
  * https://www.deepnetts.com/download
  *
  * Step-by-step guide for setting up Deep Netts is available at
- * https://www.deepnetts.com/getting-started
+ * https://www.deepnetts.com/quickstart
  * 
- * @author Zoran Sevarac <zoran.sevarac@deepnetts.com>
  */
 public class MnistHandwrittenDigitRecognition {
 
@@ -53,6 +51,8 @@ public class MnistHandwrittenDigitRecognition {
 
     static final Logger LOGGER = Logger.getLogger(DeepNetts.class.getName());
 
+    // https://github.com/deepnetts/How-to-Get-Started-With-Deep-Learning-in-Java/tree/master/src/main/java/deepnetts/getstarted
+    
     public void run() throws DeepNettsException, IOException {
 
         // download MNIST data set from github
@@ -65,14 +65,12 @@ public class MnistHandwrittenDigitRecognition {
         imageSet.setGrayscale(true);
         LOGGER.info("Loading images...");
         imageSet.loadLabels(new File(labelsFile)); // file with category labels, in this case digits 0-9
-        imageSet.loadImages(new File(trainingFile), 1000);// 1000  // files with list of image paths to use for training,  the second parameter is a number of images in subset of original data set
+        imageSet.loadImages(new File(trainingFile), 10000);// 1000  // files with list of image paths to use for training,  the second parameter is a number of images in subset of original data set
 
-        ImageSet[] imageSets = imageSet.split(0.65, 0.35); // split data set into training and test sets in given ratio
+        ImageSet[] imageSets = imageSet.split(0.8, 0.2); // split data set into training and test sets in given ratio
         int labelsCount = imageSet.getLabelsCount(); // the number of image categories/classes, the number of network outputs should correspond to this
 
         LOGGER.info("Creating neural network architecture...");
-
-        // da mnist proradi lepo sa 60 000 slika, i da radi an jednom ulaznom kanalu
         
         // create convolutional neural network architecture
         ConvolutionalNetwork neuralNet = ConvolutionalNetwork.builder()
@@ -95,10 +93,10 @@ public class MnistHandwrittenDigitRecognition {
         BackpropagationTrainer trainer = neuralNet.getTrainer();
         trainer.setLearningRate(0.001f)
                 .setStopError(0.02f)
-                .setStopAccuracy(0.99f);
+                .setStopAccuracy(0.99f)
 //                .setStopEpochs(20)
-          //      .setOptimizer(OptimizerType.MOMENTUM)
-            //    .setMomentum(0.7f);
+                .setOptimizer(OptimizerType.MOMENTUM)
+                .setMomentum(0.7f);
         trainer.train(imageSets[0]);
 
         // Test/evaluate trained network to see how it perfroms with enseen data

@@ -3,7 +3,7 @@ package deepnetts.examples.classification;
 import deepnetts.core.DeepNetts;
 import deepnetts.data.DataSets;
 import deepnetts.data.ImageSet;
-import deepnetts.data.TrainTestPair;
+import deepnetts.data.TrainTestSplit;
 import deepnetts.eval.ClassificationMetrics;
 import deepnetts.net.ConvolutionalNetwork;
 import deepnetts.net.layers.activation.ActivationType;
@@ -36,7 +36,7 @@ import javax.visrec.ri.ml.classification.ImageClassifierNetwork;
  * https://www.deepnetts.com/download
  *
  * Step-by-step guide for setting up Deep Netts is available at
- * https://www.deepnetts.com/getting-started
+ * https://www.deepnetts.com/quickstart
  * 
  * @see ConvolutionalNetwork
  * @see ImageSet
@@ -69,7 +69,7 @@ public class DukeDetector {
         imageSet.loadImages(new File(trainingFile)); // point to Path
 
         // split data into training and test set
-        TrainTestPair trainTestPair = DataSets.trainTestSplit(imageSet, 0.7);
+        TrainTestSplit trainTestPair = DataSets.trainTestSplit(imageSet, 0.7);
 
         // create a convolutional neural network arhitecture for binary image classification
         LOGGER.info("Creating a neural network...");
@@ -88,7 +88,7 @@ public class DukeDetector {
         BackpropagationTrainer trainer = convNet.getTrainer(); // Get a trainer of the created convolutional network
         trainer.setStopError(0.03f)  
                .setLearningRate(0.01f); 
-        trainer.train(trainTestPair.getTrainingeSet()); // run training
+        trainer.train(trainTestPair.getTrainingSet()); // run training
 
         LOGGER.info("Test the trained neural network.");
         EvaluationMetrics testResults = convNet.test(trainTestPair.getTestSet());

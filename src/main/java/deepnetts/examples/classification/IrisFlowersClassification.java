@@ -2,13 +2,12 @@ package deepnetts.examples.classification;
 
 import deepnetts.core.DeepNetts;
 import deepnetts.data.DataSets;
-import deepnetts.data.TrainTestPair;
+import deepnetts.data.TrainTestSplit;
 import deepnetts.data.norm.MaxScaler;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
-import deepnetts.net.train.opt.OptimizerType;
 import deepnetts.util.DeepNettsException;
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -34,7 +33,7 @@ import javax.visrec.ml.eval.EvaluationMetrics;
  * https://www.deepnetts.com/download
  *
  * Step-by-step guide for setting up Deep Netts is available at
- * https://www.deepnetts.com/getting-started
+ * https://www.deepnetts.com/quickstart
  * 
  * @see FeedForwardNetwork
  */
@@ -45,11 +44,11 @@ public class IrisFlowersClassification {
     public static void main(String[] args) throws DeepNettsException, IOException {
         // load iris data  set
         DataSet dataSet = DataSets.readCsv("datasets/iris-flowers.csv", 4, 3, true, ",");
-        TrainTestPair trainTest = DataSets.trainTestSplit(dataSet, 0.65);
+        TrainTestSplit trainTest = DataSets.trainTestSplit(dataSet, 0.65);
 
         // normalize data using max normalization
-        MaxScaler scaler = new MaxScaler(trainTest.getTrainingeSet());
-        scaler.apply(trainTest.getTrainingeSet());   
+        MaxScaler scaler = new MaxScaler(trainTest.getTrainingSet());
+        scaler.apply(trainTest.getTrainingSet());   
         scaler.apply(trainTest.getTestSet());
         
         // create an instance of a neural network  using builder
@@ -68,7 +67,7 @@ public class IrisFlowersClassification {
                .setLearningRate(0.01f);
             
         // run training to build the model
-        trainer.train(trainTest.getTrainingeSet());
+        trainer.train(trainTest.getTrainingSet());
 
         // test how the model perfroms with unseen/test data
         EvaluationMetrics evalResult = neuralNet.test(trainTest.getTestSet());        

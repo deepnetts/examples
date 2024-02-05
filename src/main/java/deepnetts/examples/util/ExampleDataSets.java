@@ -21,8 +21,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
- * TODO: add breast cancer, mnist  and other UCI stuff
- * @author Zoran
+ * Utility class for automatic download and unzipping commonly used data sets.
  */
 public class ExampleDataSets {
 

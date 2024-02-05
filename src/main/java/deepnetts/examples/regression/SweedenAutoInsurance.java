@@ -2,7 +2,6 @@ package deepnetts.examples.regression;
 
 import deepnetts.data.DataSets;
 import javax.visrec.ml.eval.EvaluationMetrics;
-import deepnetts.eval.Evaluators;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
@@ -25,7 +24,7 @@ import javax.visrec.ml.data.DataSet;
  * https://www.deepnetts.com/download
  *
  * Step-by-step guide for setting up Deep Netts is available at
- * https://www.deepnetts.com/getting-started
+ * https://www.deepnetts.com/quickstart
  * 
  * @see FeedForwardNetwork
  *
@@ -49,9 +48,9 @@ public class SweedenAutoInsurance {
                 .build();
 
         BackpropagationTrainer trainer = neuralNet.getTrainer();
-        trainer.setMaxError(0.0001f)
-               .setMaxEpochs(100)
-               .setLearningRate(0.1f);
+        trainer.setStopError(0.001f)
+               .setStopEpochs(100)
+               .setLearningRate(0.01f);
 
         neuralNet.train(trainTestPairSet[0]);
                

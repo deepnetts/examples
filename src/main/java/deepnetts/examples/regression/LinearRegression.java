@@ -13,6 +13,7 @@ import deepnetts.util.Tensor;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.visrec.ml.data.DataSet;
+import org.knowm.xchart.XYChart;
 
 /**
  * Minimal example for linear regression using FeedForwardNetwork.
@@ -24,7 +25,7 @@ import javax.visrec.ml.data.DataSet;
  * https://www.deepnetts.com/download
  *
  * Step-by-step guide for setting up Deep Netts is available at
- * https://www.deepnetts.com/getting-started
+ * https://www.deepnetts.com/quickstart
  * 
  * @author Zoran Sevarac <zoran.sevarac@deepnetts.com>
  */
@@ -70,14 +71,14 @@ public class LinearRegression {
             float[] predictedOutput = neuralNet.predict(0.2f);
             System.out.println("Predicted output for 0.2 :" + Arrays.toString(predictedOutput));
 
-            plotTrainingData();
+            XYChart chart = plotTrainingData();
 
             // plot predictions for some random data
-            plotPredictions(neuralNet);            
+            plotPredictions(neuralNet, chart);            
     }
 
 
-    public static void plotPredictions(FeedForwardNetwork nnet) {
+    public static void plotPredictions(FeedForwardNetwork nnet, XYChart chart) {
         double[][] data = new double[100][2];
 
         for(int i=0; i<data.length; i++) {
@@ -86,12 +87,13 @@ public class LinearRegression {
             data[i][1] = nnet.getOutput()[0];
         }
 
-        Plot.scatter(data, "Neural Network Predictions");
+       // XYChart chart = Plot.scatter(data, "Neural Network Predictions");
+        Plot.scatterAddData(chart, data, "Prediction");
     }
 
-    public static void plotTrainingData() throws IOException {
+    public static XYChart plotTrainingData() throws IOException {
         double[][] dataPoints = CsvFile.read("datasets/linear.csv", 30);
-        Plot.scatter(dataPoints, "Training data");
+        return Plot.scatter(dataPoints, "Training data");
     }
 
 }

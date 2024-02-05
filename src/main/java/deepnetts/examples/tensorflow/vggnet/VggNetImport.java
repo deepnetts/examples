@@ -105,7 +105,7 @@ public class VggNetImport {
         if (!file.exists()) { 
             System.out.println("VggNet pre-trained weights file is not available in local deepnetts dir, downloading it. It will take some time depending on the connection speed (file size: 600Mb)");
             try {
-                URL url = new URL("https://dl.dropboxusercontent.com/s/62pr7xyrx2vvpyn/vgg16_imagenet_weights.zip?dl=0");
+                URL url = new URL("https://dl.dropboxusercontent.com/s/62pr7xyrx2vvpyn/vgg16_imagenet_weights.zip?dl=1");
                 ReadableByteChannel rbc = Channels.newChannel(url.openStream());
                 FileOutputStream fos = new FileOutputStream(file);
                 fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);

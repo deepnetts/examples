@@ -3,7 +3,6 @@ package deepnetts.examples.classification;
 import deepnetts.core.DeepNetts;
 import deepnetts.data.ImageSet;
 import deepnetts.net.ConvolutionalNetwork;
-import deepnetts.net.layers.Filter;
 import deepnetts.net.layers.Filters;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
@@ -27,7 +26,7 @@ import javax.visrec.ml.eval.EvaluationMetrics;
  * https://www.deepnetts.com/download
  *
  * Step-by-step guide for setting up Deep Netts is available at
- * https://www.deepnetts.com/getting-started
+ * https://www.deepnetts.com/quickstart
  * 
  * @see ConvolutionalNetwork
  * @see ImageSet

@@ -5,10 +5,13 @@ D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\tensorf
 D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\util\ExampleDataSets.java
 D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\classification\Cifar10.java
 D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\regression\CpuPerformancePrediction.java
+D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\misc\HiddenLayersSearchExample.java
 D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\tensorflow\ImportConvWeights.java
 D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\tensorflow\vggnet\VggNet16.java
+D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\classification\ParkingLotOccupancyDetection.java
 D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\classification\MnistHandwrittenDigitAdvanced.java
 D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\util\Plot.java
+D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\misc\DebugExample.java
 D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\regression\SweedenAutoInsurance.java
 D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\tensorflow\vggnet\VggNetInference.java
 D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\util\CsvFile.java
@@ -26,4 +29,3 @@ D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\tensorf
 D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\classification\IrisFlowersClassificationAdvanced.java
 D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\classification\MnistHandwrittenDigitRecognition.java
 D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\tensorflow\vggnet\VggNet16InputImage.java
-D:\DeepNettsProjects\deepnetts-examples\src\main\java\deepnetts\examples\classification\ParkingLotOccupacy.java

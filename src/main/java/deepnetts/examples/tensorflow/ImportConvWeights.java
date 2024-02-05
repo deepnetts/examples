@@ -6,6 +6,7 @@ import deepnetts.data.ImageSet;
 import deepnetts.examples.util.ExampleDataSets;
 import deepnetts.net.ConvolutionalNetwork;
 import deepnetts.net.layers.Filter;
+import deepnetts.net.layers.Filters;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 import java.io.File;
@@ -24,7 +25,7 @@ public class ImportConvWeights {
         // step 1: create the network that will import weights
         ConvolutionalNetwork network = ConvolutionalNetwork.builder()
                 .addInputLayer(28, 28, 1)
-                .addConvolutionalLayer(32, Filter.ofSize(3), ActivationType.RELU)
+                .addConvolutionalLayer(32, Filters.ofSize(3), ActivationType.RELU)
                 .addMaxPoolingLayer(2, 2)
                 .addFullyConnectedLayer(100, ActivationType.RELU)
                 .addOutputLayer(10, ActivationType.SOFTMAX)

@@ -15,7 +15,6 @@ import javax.visrec.ml.data.DataSet;
 /**
  * Minimal example for regression using FeedForwardNetwork with one hidden layer.
  *
- * @author Zoran Sevarac <zoran.sevarac@deepnetts.com>
  */
 public class HousePricePrediction {
 
@@ -32,14 +31,14 @@ public class HousePricePrediction {
             // create neural network using network specific builder
             FeedForwardNetwork neuralNet = FeedForwardNetwork.builder()
                     .addInputLayer(inputsNum)
-                    .addHiddenFullyConnectedLayers(40, 20)
+                    .addHiddenFullyConnectedLayers(50, 20, 10)
                     .addOutputLayer(outputsNum, ActivationType.LINEAR)
                     .hiddenActivationFunction(ActivationType.TANH)                    
                     .lossFunction(LossType.MEAN_SQUARED_ERROR)                    
                     .build();
             
-            neuralNet.getTrainer().setMaxError(0.006f)
-                                  .setLearningRate(0.0001f);
+            neuralNet.getTrainer().setStopError(0.01f)
+                                  .setLearningRate(0.01f);
             neuralNet.train(trainTestPairSet[0]);
 
             EvaluationMetrics pm = Evaluators.evaluateRegressor(neuralNet, trainTestPairSet[1]);

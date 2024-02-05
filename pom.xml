@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.deepnetts</groupId>
-    <version>3.0.0</version>
+    <version>3.1.0</version>
     <artifactId>deepnetts-examples</artifactId>
     <packaging>jar</packaging>
     

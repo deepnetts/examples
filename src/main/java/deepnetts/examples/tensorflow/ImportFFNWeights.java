@@ -4,7 +4,7 @@ import deepnetts.util.TensorflowUtils;
 import deepnetts.core.DeepNetts;
 import deepnetts.data.DataSets;
 import deepnetts.data.TabularDataSet;
-import deepnetts.data.TrainTestPair;
+import deepnetts.data.TrainTestSplit;
 import deepnetts.data.norm.MaxScaler;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.AbstractLayer;
@@ -36,11 +36,11 @@ public class ImportFFNWeights {
           
         // step 3: test the network with imported weights with dataset
         TabularDataSet<?> dataSet = DataSets.readCsv("iris-flowers.csv", 4, 3, true, ",");
-        TrainTestPair trainTest = DataSets.trainTestSplit(dataSet, 0.65);
+        TrainTestSplit trainTest = DataSets.trainTestSplit(dataSet, 0.65);
 
         // normalize data using max normalization
-        MaxScaler scaler = new MaxScaler(trainTest.getTrainingeSet());
-        scaler.apply(trainTest.getTrainingeSet());   
+        MaxScaler scaler = new MaxScaler(trainTest.getTrainingSet());
+        scaler.apply(trainTest.getTrainingSet());   
         scaler.apply(trainTest.getTestSet());  
              
          //evaluate network with the test set

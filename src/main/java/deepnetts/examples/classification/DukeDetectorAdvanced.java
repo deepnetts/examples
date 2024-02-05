@@ -87,23 +87,23 @@ public class DukeDetectorAdvanced {
         // Get a trainer of the created convolutional network
         BackpropagationTrainer trainer = convNet.getTrainer();
         trainer.setStopError(0.03f)
-               .setOptimizer(OptimizerType.ADAGRAD) // za ada delta skace jer bude preveliki initial learning rate
+               .setOptimizer(OptimizerType.ADAGRAD)
                .setLearningRate(0.001f);
         trainer.train(trainTestPair.getTrainingSet());
 
         LOGGER.info("Saving the trained neural network.");
-        // save trained neural network to file
+        // save the trained neural network to a file
         FileIO.writeToFile(convNet, "DukeDetector.dnet");
 
         LOGGER.info("Test the trained neural network.");
-        ClassificationMetrics cem = Evaluators.evaluateClassifier(convNet, trainTestPair.getTestSet()); // vrati evaluatora i iz njega uzmi sve sto ti ytreba
+        ClassificationMetrics cem = Evaluators.evaluateClassifier(convNet, trainTestPair.getTestSet());
         System.out.println(cem);
         
         ConfusionMatrix confusionMatrix = cem.getConfusionMatrix();
         System.out.println(confusionMatrix);
 
-        // how to use recognizer for single image
-        BufferedImage image = ImageIO.read(new File("D:\\datasets\\DukeSet\\duke\\duke7.jpg")); // promeni ovu sliku i ubaci u resources!
+        // how to use recognizer for a single image
+        BufferedImage image = ImageIO.read(new File("datasets/DukeSet/duke/duke7.jpg"));
         ImageClassifier<BufferedImage> imageClassifier = new ImageClassifierNetwork(convNet);
         Map<String, Float> results = imageClassifier.classify(image);
 

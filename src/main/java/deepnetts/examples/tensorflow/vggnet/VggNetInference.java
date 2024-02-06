@@ -33,35 +33,34 @@ import java.util.zip.ZipFile;
 public class VggNetInference {
     
     public static void main(String[] args) throws IOException, ClassNotFoundException {    
-        DeepNetts.getInstance().setUseCuda(false);
+        DeepNetts.getInstance().setUseCuda(true);
         // vgg net file {user.home}/.deepnetts/vggnet16.dnet
         String userHomeDir = System.getProperty("user.home");  
         String deepNettsDir = userHomeDir + "/.deepnetts";
-        String vggNetFile = deepNettsDir + "/" + "vggnet16.dnet";
+        String vggNetFile = deepNettsDir + "/vggnet16.dnet";
 
-        // download pre-trained saved vggnet16 from tensorflow into local {user.home}/.deepnetts dir, if it does now allready exist there
-        downloadIfNotExists(vggNetFile, "https://dl.dropboxusercontent.com/s/rp8qrmy4dd556yr/vggnet16.zip?dl=1");
+        // download and unpack pre-trained vggnet16 into local {user.home}/.deepnetts dir (if it does now allready exist there)
+        downloadIfNotExists(vggNetFile, "https://www.dropbox.com/scl/fi/tnwww1p9ie5wttuglt3m7/vggnet16_3.1.0.zip?rlkey=35frfi498gj6nm693rzge8apb&dl=1");
 
         // create an instance of trained VGGNet16 from file 
         VggNet16 neuralNetwork = VggNet16.fromFile(vggNetFile); 
 
-        VggNet16InputImage vggInputImage = new VggNet16InputImage("datasets/test_vgg/airplane.jpg");
+        // load and preprocess an image
+        VggNet16InputImage vggInputImage = new VggNet16InputImage("datasets/test_vgg/airplane.jpg");     
+                
         // guess/predict a label for the given image (specified as path to the image)
-        // warmup
-
-        //String label = neuralNetwork.guessLabel("datasets/test_vgg/airplane.jpg"); // change this path to an image to test other images/objects           
-       String label = neuralNetwork.guessLabel(vggInputImage); // 
-       
-       long startTime = System.currentTimeMillis(); 
-       label = neuralNetwork.guessLabel(vggInputImage); // change this path to an image to test other images/objects           
-                  
-     //   label = neuralNetwork.guessLabel("datasets/test_vgg/airplane.jpg");
-               long stopTime = System.currentTimeMillis();
-     //   System.exit(0);
-        System.out.println("This image contains: " + label + " time:" + (stopTime-startTime));
-        // print predicted label
-        System.out.println("This image contains: " + label);
+        // String label = neuralNetwork.guessLabel("datasets/test_vgg/airplane.jpg"); // change this path to an image to test other images/objects           
+        // run once to warmup JVM
+        String label = neuralNetwork.guessLabel(vggInputImage);
         
+        long startTime = System.currentTimeMillis(); 
+        label = neuralNetwork.guessLabel(vggInputImage);              
+     //   label = neuralNetwork.guessLabel("datasets/test_vgg/airplane.jpg");     
+        long stopTime = System.currentTimeMillis();
+        
+        // print predicted label and inference time
+        System.out.println("This image contains: " + label + " time:" + (stopTime-startTime));
+                
         // shutdown the deep netts thread pool
         DeepNetts.shutdown();
     }
@@ -80,7 +79,7 @@ public class VggNetInference {
         if (!Files.exists(deepNettsDir)) {
             deepNettsDir.toFile().mkdir();
         }
-        File zipFile = new File(deepNettsDir + "/vggnet16.zip");
+        File zipFile = new File(deepNettsDir + "/vggnet16_3.1.0.zip");
         File file = new File(deepNettsDir + "/vggnet16.dnet");
         if (!file.exists()) {
             System.out.println("VggNet pre-trained network file not available on local disk, downloading it. It will take some time depending on the connection speed (file size: 2.6GB)");
@@ -90,14 +89,14 @@ public class VggNetInference {
                 FileOutputStream fos = new FileOutputStream(zipFile);
                 fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
                 fos.close();
-                rbc.close();
+                rbc.close();                
+                unzip(zipFile);
             } catch (MalformedURLException ex) {
                 Logger.getLogger(VggNetImport.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(VggNetImport.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        unzip(zipFile);
     }
      private static void unzip(File fileToUnzip) {
         try ( ZipFile zipFile = new ZipFile(fileToUnzip.getAbsoluteFile())) {

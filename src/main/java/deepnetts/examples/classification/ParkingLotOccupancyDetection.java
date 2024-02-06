@@ -39,19 +39,16 @@ public class ParkingLotOccupancyDetection {
     // dimensions of input images
     int imageWidth = 96;
     int imageHeight = 96;
-  //  e ovde nije dobra putanja
-    // to run this example you need to download the data set from http://cnrpark.it/
-  //  String trainingFile = "D:/datasets/Parkiranje/A/index.txt"; // seth local paths to these files
-    //String labelsFile = "D:/datasets/Parkiranje/A/labels.txt";
 
     static final Logger LOG = Logger.getLogger(DeepNetts.class.getName());
 
 
     public void run() throws DeepNettsException, IOException {
-       // zameni sa direktorijumom da ne moraju da se specificiraju labele i slike nego da to radi automatski
+
+        // to run this example you need to download the data set from http://cnrpark.it/ and unpack it, and specify directory below
         ImageSet imageSet = new ImageSet(imageWidth, imageHeight, "D:/datasets/Parkiranje/A");
         imageSet.setInvertImages(true); // optional image preprocessing
-      //  imageSet.zeroMean();        
+        //  imageSet.zeroMean();
         LOG.info("Loading images...");        
        // imageSet.loadLabels(new File(labelsFile));
        // imageSet.loadImages(new File(trainingFile));

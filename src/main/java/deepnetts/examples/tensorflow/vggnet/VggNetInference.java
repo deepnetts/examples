@@ -84,7 +84,7 @@ public class VggNetInference {
         if (!file.exists()) {
             System.out.println("VggNet pre-trained network file not available on local disk, downloading it. It will take some time depending on the connection speed (file size: 2.6GB)");
             try {                
-                URL url = new URL(urlStr); // gde cu je uploadovati - gdrive?? stavi link ovde
+                URL url = new URL(urlStr); 
                 ReadableByteChannel rbc = Channels.newChannel(url.openStream());
                 FileOutputStream fos = new FileOutputStream(zipFile);
                 fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);

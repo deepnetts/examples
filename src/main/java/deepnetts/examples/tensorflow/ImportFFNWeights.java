@@ -7,12 +7,9 @@ import deepnetts.data.TabularDataSet;
 import deepnetts.data.TrainTestSplit;
 import deepnetts.data.norm.MaxScaler;
 import deepnetts.net.FeedForwardNetwork;
-import deepnetts.net.layers.AbstractLayer;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
-import deepnetts.util.Tensor;
 import java.io.IOException;
-import javax.visrec.ml.data.DataSet;
 import javax.visrec.ml.eval.EvaluationMetrics;
 
 /**

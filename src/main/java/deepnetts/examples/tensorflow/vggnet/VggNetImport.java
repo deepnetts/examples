@@ -1,9 +1,7 @@
 package deepnetts.examples.tensorflow.vggnet;
 
-import deepnetts.core.DeepNetts;
 import deepnetts.util.TensorflowUtils;
 import deepnetts.net.ConvolutionalNetwork;
-import deepnetts.net.layers.Filter;
 import deepnetts.net.layers.Filters;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;

@@ -2,7 +2,7 @@ package deepnetts.examples.tensorflow.vggnet;
 
 import deepnetts.net.ConvolutionalNetwork;
 import deepnetts.util.FileIO;
-import deepnetts.util.Tensor;
+import deepnetts.util.TensorBase;
 import java.io.IOException;
 import java.util.Map;
 
@@ -27,7 +27,7 @@ public final class VggNet16 {
     }    
     
     public synchronized String guessLabel(VggNet16InputImage vggInputImage) {
-        Tensor prediction = convNet.predict(vggInputImage.getInput());
+        TensorBase prediction = convNet.predict(vggInputImage.getInput());
         int maxIdx = maxIdxOf(prediction);
         
         return convNet.getOutputLabel(maxIdx);
@@ -41,7 +41,7 @@ public final class VggNet16 {
         throw  new UnsupportedOperationException();
     }
        
-    static int maxIdxOf(Tensor prediction) {
+    static int maxIdxOf(TensorBase prediction) {
         int maxIdx = -1;
         float max = 0;
         final float[] predictions = prediction.getValues();

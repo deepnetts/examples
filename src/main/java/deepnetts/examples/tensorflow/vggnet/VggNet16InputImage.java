@@ -2,7 +2,7 @@ package deepnetts.examples.tensorflow.vggnet;
 
 import deepnetts.data.ExampleImage;
 import deepnetts.util.ImageUtils;
-import deepnetts.util.Tensor;
+import deepnetts.util.TensorBase;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.io.File;
@@ -45,7 +45,7 @@ public class VggNet16InputImage extends ExampleImage {
             }
         }
         
-        rgbTensor = new Tensor(height, width, channels, bgrVector);
+        rgbTensor = new TensorBase(height, width, channels, bgrVector);
     }
     
 }

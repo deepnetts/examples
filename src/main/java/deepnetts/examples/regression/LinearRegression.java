@@ -9,7 +9,9 @@ import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
-import deepnetts.util.Tensor;
+import deepnetts.util.Tensor1D;
+import deepnetts.util.Tensor2D;
+import deepnetts.util.TensorBase;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.visrec.ml.data.DataSet;
@@ -61,8 +63,8 @@ public class LinearRegression {
             System.out.println(em);
 
             // print out learned model
-            float slope = neuralNet.getLayers().get(1).getWeights().get(0);
-            float intercept = neuralNet.getLayers().get(1).getBiases().get(0);
+            float slope = ((Tensor2D)neuralNet.getLayers().get(1).getWeights()).get(0, 0); // @todo: change to 1 dim tesnsor
+            float intercept = ((Tensor1D)neuralNet.getLayers().get(1).getBiases()).get(0);
             
             System.out.println("Original function: y = 0.5 * x + 0.2");
             System.out.println("Estimated/learned function: y = "+slope+" * x + "+intercept);
@@ -83,7 +85,7 @@ public class LinearRegression {
 
         for(int i=0; i<data.length; i++) {
             data[i][0] =  0.5-Math.random();
-            nnet.setInput(new Tensor(1, 1, new float[] { (float)data[i][0] }));
+            nnet.setInput(new Tensor1D(new float[] { (float)data[i][0] }));
             data[i][1] = nnet.getOutput()[0];
         }
 

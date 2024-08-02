@@ -9,6 +9,7 @@ import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.util.DeepNettsException;
+import deepnetts.util.DeepNettsThreadPool;
 import java.io.IOException;
 import java.util.logging.Logger;
 import javax.visrec.ml.data.DataSet;
@@ -50,7 +51,7 @@ public class IrisFlowersClassification {
         MaxScaler scaler = new MaxScaler(trainTest.getTrainingSet());
         scaler.apply(trainTest.getTrainingSet());   
         scaler.apply(trainTest.getTestSet());
-        
+      //  DeepNettsThreadPool.getInstance().setThreadCount(1);
         // create an instance of a neural network  using builder
         FeedForwardNetwork neuralNet = FeedForwardNetwork.builder()
                 .addInputLayer(4)

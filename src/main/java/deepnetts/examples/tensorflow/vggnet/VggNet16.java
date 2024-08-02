@@ -2,7 +2,7 @@ package deepnetts.examples.tensorflow.vggnet;
 
 import deepnetts.net.ConvolutionalNetwork;
 import deepnetts.util.FileIO;
-import deepnetts.util.TensorBase;
+import deepnetts.tensor.TensorBase;
 import java.io.IOException;
 import java.util.Map;
 

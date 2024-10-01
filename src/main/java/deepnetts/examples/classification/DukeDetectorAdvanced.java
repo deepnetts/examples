@@ -109,8 +109,6 @@ public class DukeDetectorAdvanced {
 
         System.out.println(results.toString());
         
-        // shutdown the thread pool
-        DeepNetts.shutdown();
     }
 
 }

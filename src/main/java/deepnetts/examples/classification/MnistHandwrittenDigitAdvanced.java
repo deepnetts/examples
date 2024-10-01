@@ -112,9 +112,7 @@ public class MnistHandwrittenDigitAdvanced {
         
         // Save trained network to file
         FileIO.writeToFile(neuralNet, "mnistDemo.dnet");
-        
-        // shutdown the thread pool
-        DeepNetts.shutdown();            
+                   
     }
 
     public static void main(String[] args) throws IOException {

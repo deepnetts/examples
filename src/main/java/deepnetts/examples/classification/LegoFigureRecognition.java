@@ -95,7 +95,6 @@ public class LegoFigureRecognition {
             Logger.getLogger(LegoFigureRecognition.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        DeepNetts.shutdown();
 
     }
 

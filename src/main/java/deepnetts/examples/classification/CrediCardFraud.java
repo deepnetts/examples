@@ -41,6 +41,8 @@ public class CrediCardFraud {
 
     public static void main(String[] args) throws DeepNettsException, IOException {
         
+        DeepNetts.getInstance().setMaxThreads(1);
+        
         int numInputs= 29;
         int numOutputs = 1;
         boolean hasHeader = true;
@@ -65,7 +67,7 @@ public class CrediCardFraud {
                 .build();
   
         // set parameters of the training algorithm
-        neuralNet.getTrainer().setStopError(0.2f)
+        neuralNet.getTrainer().setStopError(0.02f)
                               .setStopEpochs(10000)
                               .setLearningRate(0.001f);
      
@@ -82,10 +84,6 @@ public class CrediCardFraud {
 
         Float result = binClassifier.classify(testTransaction);
         System.out.println("Fraud probability: "+result);            
-
-        
-        // shutdown the thread pool
-        DeepNetts.shutdown();
-        
+            
     }
 }

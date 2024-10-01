@@ -76,7 +76,7 @@ public class ParkingLotOccupancyDetection {
 
         // set training options and train the network
         BackpropagationTrainer trainer = parkingNet.getTrainer();
-        trainer.setStopError(0.05f)
+        trainer.setStopError(0.03f)
                .setStopEpochs(15)
                .setLearningRate(0.01f);
         trainer.train(imageSets[0]);
@@ -93,8 +93,6 @@ public class ParkingLotOccupancyDetection {
             Logger.getLogger(ParkingLotOccupancyDetection.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // shutdown the thread pool
-        DeepNetts.shutdown();
 
     }
 

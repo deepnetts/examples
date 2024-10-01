@@ -48,7 +48,7 @@ public class LogisticRegression {
                 .build();
 
         BackpropagationTrainer trainer = neuralNet.getTrainer();
-        trainer.setLearningRate(0.01f)
+        trainer.setLearningRate(0.1f)
                .setStopError(0.1f)
                .setStopEpochs(20000);
 

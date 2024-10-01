@@ -5,7 +5,6 @@ import deepnetts.core.DeepNetts;
 import deepnetts.data.ImageSet;
 import deepnetts.examples.util.ExampleDataSets;
 import deepnetts.net.ConvolutionalNetwork;
-import deepnetts.net.layers.Filter;
 import deepnetts.net.layers.Filters;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
@@ -52,8 +51,6 @@ public class ImportConvWeights {
         EvaluationMetrics evalResult = network.test(imageSet);  
         System.out.println(evalResult);
         
-        // shutdown all threads
-        DeepNetts.shutdown();
     }
 
 }

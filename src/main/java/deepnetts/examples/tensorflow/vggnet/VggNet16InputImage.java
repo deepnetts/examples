@@ -37,16 +37,18 @@ public class VggNet16InputImage extends ExampleImage {
         Raster raster = image.getRaster();
         float[] pixel = null;
 
+        
+        // ovo preradi sa saznanjem da je channels first
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 pixel = raster.getPixel(x, y, pixel);
-                bgrVector[y * width + x] = pixel[2] - imageNetMean[0];
-                bgrVector[width * height + y * width + x] = pixel[1] - imageNetMean[1];
-                bgrVector[2 * width * height + y * width + x] = pixel[0] - imageNetMean[2];                       
+                bgrVector[x * height + y] = pixel[2] - imageNetMean[0]; // red
+                bgrVector[width * height + x * height + y] = pixel[1] - imageNetMean[1]; // green
+                bgrVector[2 * width * height + x * height + y] = pixel[0] - imageNetMean[2]; // blue                       
             }
         }
         
-        rgbTensor = new Tensor3D(height, width, channels, bgrVector);
+        rgbTensor = new Tensor3D(channels, height, width, bgrVector);
     }
     
 }

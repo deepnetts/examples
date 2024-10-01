@@ -51,11 +51,12 @@ public class IrisFlowersClassification {
         MaxScaler scaler = new MaxScaler(trainTest.getTrainingSet());
         scaler.apply(trainTest.getTrainingSet());   
         scaler.apply(trainTest.getTestSet());
-      //  DeepNettsThreadPool.getInstance().setThreadCount(1);
+        DeepNetts.getInstance().setMaxThreads(1);
+
         // create an instance of a neural network  using builder
         FeedForwardNetwork neuralNet = FeedForwardNetwork.builder()
                 .addInputLayer(4)
-                .addFullyConnectedLayer(16, ActivationType.TANH)
+                .addFullyConnectedLayer(32, ActivationType.TANH)
                 .addOutputLayer(3, ActivationType.SOFTMAX)
                 .lossFunction(LossType.CROSS_ENTROPY)
                 .randomSeed(123).
@@ -74,8 +75,10 @@ public class IrisFlowersClassification {
         EvaluationMetrics evalResult = neuralNet.test(trainTest.getTestSet());        
         LOGGER.info(evalResult.toString());
         
-        // shutdown the thread pool
-        DeepNetts.shutdown();            
+        if (DeepNetts.getInstance().isMultithreaded()) {
+            System.out.println("Used threads:"+neuralNet.getThreadPool().getThreadNum());
+            neuralNet.getThreadPool().shutdownNow();           
+        }
     }
 
 }

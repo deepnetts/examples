@@ -18,7 +18,8 @@ import javax.visrec.ml.eval.EvaluationMetrics;
  */
 public class ImportFFNWeights {
     public static void main(String[] args) throws IOException {
-                   
+                           DeepNetts.getInstance().setMaxThreads(1);// ovo da moze pojedinacne mreze ne sve
+
         // step 1: create the network that will import weights
         FeedForwardNetwork network = FeedForwardNetwork.builder()
                                                         .addInputLayer(4)
@@ -43,9 +44,7 @@ public class ImportFFNWeights {
          //evaluate network with the test set
         EvaluationMetrics evalResult = network.test(trainTest.getTestSet());  
         System.out.println(evalResult);
-        
-        // shutdown all threads
-        DeepNetts.shutdown();        
+            
     }
          
 }

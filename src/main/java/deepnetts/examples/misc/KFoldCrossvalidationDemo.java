@@ -67,9 +67,7 @@ public class KFoldCrossvalidationDemo {
         
         System.out.println("Best evaluation metrics:");
         System.out.println(bestEm);
-        
-        // shutdown the thread pool
-        DeepNetts.shutdown();        
+               
         
     }
 

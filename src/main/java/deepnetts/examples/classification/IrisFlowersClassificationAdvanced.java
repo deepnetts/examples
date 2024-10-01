@@ -95,9 +95,7 @@ public class IrisFlowersClassificationAdvanced {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(IrisFlowersClassificationAdvanced.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        // shutdown the thread pool
-        DeepNetts.shutdown();          
+                 
     }
 
 }

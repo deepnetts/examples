@@ -122,9 +122,7 @@ public class Cifar10 {
         
         // Save trained network to file
         FileIO.writeToFile(neuralNet, "cifar10net.dnet");
-        
-        // shutdown the thread pool
-        DeepNetts.shutdown();             
+                  
     }
 
     public static void main(String[] args) throws IOException {

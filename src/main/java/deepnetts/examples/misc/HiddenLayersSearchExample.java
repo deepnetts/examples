@@ -61,9 +61,7 @@ public class HiddenLayersSearchExample {
         paramSearch.run();    
         
         System.out.println(paramSearch.getResults());
-        
-        // shutdown the thread pool
-        DeepNetts.shutdown();        
+      
     }
 }
 /**

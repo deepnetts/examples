@@ -36,6 +36,8 @@ public class SpamClassifier {
         int numInputs = 57;
         int numOutputs = 1;
         
+     //   DeepNetts.getInstance().setMaxThreads(1);
+        
         // load spam data  set from csv file
         DataSet dataSet = DataSets.readCsv("datasets/spam.csv", numInputs, numOutputs, true);             
 
@@ -57,7 +59,7 @@ public class SpamClassifier {
                 .build();
 
         // set training settings
-        neuralNet.getTrainer().setStopError(0.3f)
+        neuralNet.getTrainer().setStopError(0.03f)
                               .setLearningRate(0.001f);
         
         // start training
@@ -75,9 +77,7 @@ public class SpamClassifier {
         // feed the classifer and get result / spam probability
         Float result = binClassifier.classify(testEmail);
         System.out.println("Spam probability: "+result);      
-        
-        // shutdown the thread pool
-        DeepNetts.shutdown();        
+            
     }
     
 

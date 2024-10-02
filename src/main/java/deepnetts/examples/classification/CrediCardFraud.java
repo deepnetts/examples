@@ -41,7 +41,7 @@ public class CrediCardFraud {
 
     public static void main(String[] args) throws DeepNettsException, IOException {
         
-        DeepNetts.getInstance().setMaxThreads(1);
+    //    DeepNetts.getInstance().setMaxThreads(1);
         
         int numInputs= 29;
         int numOutputs = 1;

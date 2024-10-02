@@ -35,9 +35,7 @@ public class SpamClassifier {
 
         int numInputs = 57;
         int numOutputs = 1;
-        
-     //   DeepNetts.getInstance().setMaxThreads(1);
-        
+              
         // load spam data  set from csv file
         DataSet dataSet = DataSets.readCsv("datasets/spam.csv", numInputs, numOutputs, true);             
 

@@ -52,7 +52,7 @@ public class LegoFigureRecognition {
         imageSet.loadLabels(new File(labelsFile));
         imageSet.loadImages(new File(trainingFile));
         imageSet.setInvertImages(true);
-        imageSet.zeroMean();
+        imageSet.zeroMeanPerChannel();
         imageSet.shuffle();
 
         ImageSet[] imageSets = imageSet.split(0.60, 0.40);
@@ -95,7 +95,6 @@ public class LegoFigureRecognition {
             Logger.getLogger(LegoFigureRecognition.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        DeepNetts.shutdown();
 
     }
 

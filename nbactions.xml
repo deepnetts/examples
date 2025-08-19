@@ -12,8 +12,8 @@
             <properties>
                 <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
                 <exec.executable>java</exec.executable>
-                <exec.mainClass>deepnetts.examples.tensorflow.vggnet.VggNetInference</exec.mainClass>
-                <exec.vmArgs>-Xms8g  -XX:MaxInlineSize=230</exec.vmArgs>
+                <exec.mainClass>deepnetts.examples.regression.CpuPerformancePrediction</exec.mainClass>
+                <exec.vmArgs>-Xms8g  -XX:MaxInlineSize=230 --add-modules jdk.incubator.vector</exec.vmArgs>
                 <exec.appArgs></exec.appArgs>
             </properties>
         </action>
@@ -30,8 +30,8 @@
                 <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
-                <exec.mainClass>deepnetts.examples.tensorflow.vggnet.VggNetInference</exec.mainClass>
-                <exec.vmArgs>-Xms8g  -XX:MaxInlineSize=230 -agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</exec.vmArgs>
+                <exec.mainClass>deepnetts.examples.regression.CpuPerformancePrediction</exec.mainClass>
+                <exec.vmArgs>-Xms8g  -XX:MaxInlineSize=230 --add-modules jdk.incubator.vector -agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</exec.vmArgs>
                 <exec.appArgs></exec.appArgs>
             </properties>
         </action>
@@ -47,8 +47,8 @@
             <properties>
                 <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
                 <exec.executable>java</exec.executable>
-                <exec.mainClass>deepnetts.examples.tensorflow.vggnet.VggNetInference</exec.mainClass>
-                <exec.vmArgs>-Xms8g  -XX:MaxInlineSize=230</exec.vmArgs>
+                <exec.mainClass>deepnetts.examples.regression.CpuPerformancePrediction</exec.mainClass>
+                <exec.vmArgs>-Xms8g  -XX:MaxInlineSize=230 --add-modules jdk.incubator.vector</exec.vmArgs>
                 <exec.appArgs></exec.appArgs>
             </properties>
         </action>

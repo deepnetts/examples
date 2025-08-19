@@ -8,7 +8,7 @@
  * Image recognition (recognizing image content)
  
  For the best performance and accuracy the recommended way to run this example is to use Deep Netts Pro, with Free Development License.
- https://www.deepnetts.com/download
+https://www.deepnetts.com/download-latest
  
  Step-by-step guide for setting up Deep Netts is available at
  https://www.deepnetts.com/getting-started

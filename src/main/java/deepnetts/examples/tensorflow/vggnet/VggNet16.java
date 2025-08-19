@@ -2,7 +2,7 @@ package deepnetts.examples.tensorflow.vggnet;
 
 import deepnetts.net.ConvolutionalNetwork;
 import deepnetts.util.FileIO;
-import deepnetts.util.TensorBase;
+import deepnetts.tensor.TensorBase;
 import java.io.IOException;
 import java.util.Map;
 
@@ -45,7 +45,7 @@ public final class VggNet16 {
         int maxIdx = -1;
         float max = 0;
         final float[] predictions = prediction.getValues();
-        for(int i=0; i<prediction.size(); i++) {
+        for(int i=0; i<prediction.numElements(); i++) {
             if (predictions[i] > max) {
                 max = predictions[i];
                 maxIdx = i;

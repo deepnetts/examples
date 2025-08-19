@@ -9,9 +9,9 @@ import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
+import deepnetts.tensor.Tensor1D;
+import deepnetts.tensor.TensorBase;
 import deepnetts.util.FileIO;
-import deepnetts.util.TensorBase;
-import deepnetts.util.Tensors;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -91,7 +91,7 @@ public class CpuPerformancePrediction {
             float[] predictedOutput = neuralNet.getOutput();
             
             // create a tensor object from given output array
-            TensorBase predictedTensor = TensorBase.of(predictedOutput);
+            TensorBase predictedTensor = Tensor1D.of(predictedOutput);
             scaler.deNormalizeOutputs(predictedTensor);
             
             // de-normalize output here
@@ -107,9 +107,7 @@ public class CpuPerformancePrediction {
             } catch (ClassNotFoundException ex) { 
                 Logger.getLogger(CpuPerformancePrediction.class.getName()).log(Level.SEVERE, null, ex);
             } 
-
-        // shutdown the thread pool
-        DeepNetts.shutdown();            
+        
     }
 
 }

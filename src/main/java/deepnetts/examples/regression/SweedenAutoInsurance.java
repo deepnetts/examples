@@ -48,8 +48,8 @@ public class SweedenAutoInsurance {
                 .build();
 
         BackpropagationTrainer trainer = neuralNet.getTrainer();
-        trainer.setStopError(0.001f)
-               .setStopEpochs(100)
+        trainer.setStopError(0.0000001f)
+               .setStopEpochs(650)
                .setLearningRate(0.01f);
 
         neuralNet.train(trainTestPairSet[0]);

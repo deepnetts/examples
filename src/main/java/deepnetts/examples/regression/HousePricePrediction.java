@@ -8,7 +8,7 @@ import javax.visrec.ml.eval.EvaluationMetrics;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
-import deepnetts.util.TensorBase;
+import deepnetts.tensor.Tensor1D;
 import java.io.IOException;
 import javax.visrec.ml.data.DataSet;
 
@@ -45,11 +45,9 @@ public class HousePricePrediction {
             System.out.println(pm);
 
             // perform prediction for some input value
-            neuralNet.setInput(TensorBase.of(new float[] {0.2f}));
+            neuralNet.setInput(Tensor1D.of(new float[] {0.2f}));
             System.out.println("Predicted price of the house is for 8 :" + neuralNet.getOutput()[0]);//*50);
-            
-            // shutdown the thread pool
-            DeepNetts.shutdown();            
+                  
     }
 
 }

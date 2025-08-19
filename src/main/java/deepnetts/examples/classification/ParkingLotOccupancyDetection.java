@@ -47,7 +47,7 @@ public class ParkingLotOccupancyDetection {
         // to run this example you need to download the data set from http://cnrpark.it/ and unpack it, and specify directory below
         ImageSet imageSet = new ImageSet(imageWidth, imageHeight, "D:/datasets/Parkiranje/A");
         imageSet.setInvertImages(true); // optional image preprocessing
-        //  imageSet.zeroMean();
+        imageSet.zeroMeanPerChannel();
         LOG.info("Loading images...");        
        // imageSet.loadLabels(new File(labelsFile));
        // imageSet.loadImages(new File(trainingFile));
@@ -62,10 +62,10 @@ public class ParkingLotOccupancyDetection {
 
         ConvolutionalNetwork parkingNet = ConvolutionalNetwork.builder()
                                             .addInputLayer(imageWidth, imageHeight, 3)
-                                            .addConvolutionalLayer(6, Filters.ofSize(3), ActivationType.LEAKY_RELU)
+                                            .addConvolutionalLayer(6, Filters.ofSize(3), ActivationType.TANH)
                                             .addMaxPoolingLayer(Filters.ofSize(2).stride(2))
-                                            .addFullyConnectedLayer(30, ActivationType.LEAKY_RELU)
-                                            .addFullyConnectedLayer(10, ActivationType.LEAKY_RELU)
+                                            .addFullyConnectedLayer(30, ActivationType.TANH)
+                                            .addFullyConnectedLayer(10, ActivationType.TANH)
                                             .addOutputLayer(1, ActivationType.SIGMOID)
                                             .lossFunction(LossType.CROSS_ENTROPY)
                                             .randomSeed(123)
@@ -76,7 +76,7 @@ public class ParkingLotOccupancyDetection {
 
         // set training options and train the network
         BackpropagationTrainer trainer = parkingNet.getTrainer();
-        trainer.setStopError(0.05f)
+        trainer.setStopError(0.03f)
                .setStopEpochs(15)
                .setLearningRate(0.01f);
         trainer.train(imageSets[0]);
@@ -88,13 +88,11 @@ public class ParkingLotOccupancyDetection {
         
         // save trained network to file
         try {
-            FileIO.writeToFile(parkingNet, "legoPeople.net");
+            FileIO.writeToFile(parkingNet, "parking_lot.net");
         } catch (IOException ex) {
             Logger.getLogger(ParkingLotOccupancyDetection.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // shutdown the thread pool
-        DeepNetts.shutdown();
 
     }
 

@@ -41,12 +41,14 @@ public class CrediCardFraud {
 
     public static void main(String[] args) throws DeepNettsException, IOException {
         
+    //    DeepNetts.getInstance().setMaxThreads(1);
+        
         int numInputs= 29;
         int numOutputs = 1;
         boolean hasHeader = true;
 
-        // load spam data  set from csv file 
-        DataSet dataSet = DataSets.readCsv("datasets/creditcard-balanced.csv", numInputs, numOutputs, hasHeader);
+        // load credit card data  set from csv file 
+        DataSet dataSet = DataSets.readCsv("datasets/creditcard-balanced.csv", numInputs, numOutputs, hasHeader, ",");
         
         // scale data to [0, 1] range which is used by neural network
         DataSets.scaleToMax(dataSet);
@@ -59,13 +61,13 @@ public class CrediCardFraud {
         // create instance of feed forward neural network using its builder
         FeedForwardNetwork neuralNet = FeedForwardNetwork.builder()
                 .addInputLayer(numInputs)   // size of the input layer corresponds to number of inputs
-                .addFullyConnectedLayer(80, ActivationType.TANH) 
+                .addFullyConnectedLayer(32, ActivationType.TANH) 
                 .addOutputLayer(numOutputs, ActivationType.SIGMOID) // size of output layer corresponds to number of outputs, which is 1 for binary classification problems, and sigmoid transfer function is used for binary classification
                 .lossFunction(LossType.CROSS_ENTROPY) // cross entropy loss function is commonly used for classification problems
                 .build();
   
         // set parameters of the training algorithm
-        neuralNet.getTrainer().setStopError(0.2f)
+        neuralNet.getTrainer().setStopError(0.02f)
                               .setStopEpochs(10000)
                               .setLearningRate(0.001f);
      
@@ -82,10 +84,6 @@ public class CrediCardFraud {
 
         Float result = binClassifier.classify(testTransaction);
         System.out.println("Fraud probability: "+result);            
-
-        
-        // shutdown the thread pool
-        DeepNetts.shutdown();
-        
+            
     }
 }

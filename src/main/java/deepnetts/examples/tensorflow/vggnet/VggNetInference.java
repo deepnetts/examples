@@ -34,6 +34,7 @@ public class VggNetInference {
     
     public static void main(String[] args) throws IOException, ClassNotFoundException {    
         DeepNetts.getInstance().setUseCuda(true);
+       //  DeepNetts.getInstance().setMaxThreads(64);
         // vgg net file {user.home}/.deepnetts/vggnet16.dnet
         String userHomeDir = System.getProperty("user.home");  
         String deepNettsDir = userHomeDir + "/.deepnetts";
@@ -46,7 +47,7 @@ public class VggNetInference {
         VggNet16 neuralNetwork = VggNet16.fromFile(vggNetFile); 
 
         // load and preprocess an image
-        VggNet16InputImage vggInputImage = new VggNet16InputImage("datasets/test_vgg/airplane.jpg");     
+        VggNet16InputImage vggInputImage = new VggNet16InputImage("datasets/test_vgg/elephant.jpg");     
                 
         // guess/predict a label for the given image (specified as path to the image)
         // String label = neuralNetwork.guessLabel("datasets/test_vgg/airplane.jpg"); // change this path to an image to test other images/objects           
@@ -61,8 +62,6 @@ public class VggNetInference {
         // print predicted label and inference time
         System.out.println("This image contains: " + label + " time:" + (stopTime-startTime));
                 
-        // shutdown the deep netts thread pool
-        DeepNetts.shutdown();
     }
     
   

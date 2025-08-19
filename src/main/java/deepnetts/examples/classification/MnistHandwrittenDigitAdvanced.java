@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -45,8 +46,8 @@ public class MnistHandwrittenDigitAdvanced {
     int imageHeight = 28;
 
     // training image index and labels
-    String labelsFile = "datasets/mnist/labels.txt"; // data set ne sme da bud elokalni - neka ga downloaduuje sa github-a - mozda visrec?
-    String trainingFile = "datasets/mnist/train.txt";
+    String labelsFile = "datasets/mnist/training/labels.txt";
+    String trainingFile = "datasets/mnist/training/train.txt";
 
     static final Logger LOGGER = Logger.getLogger(DeepNetts.class.getName());
 
@@ -54,7 +55,8 @@ public class MnistHandwrittenDigitAdvanced {
 
         // download MNIST data set from github
         Path mnistPath = ExampleDataSets.downloadMnistDataSet();   
-        LOGGER.info("Downloaded MNIST data set to "+mnistPath);        
+        LOGGER.info("Downloaded MNIST data set to "+mnistPath);   
+        
         
     
         // create a data set from images and labels
@@ -62,7 +64,7 @@ public class MnistHandwrittenDigitAdvanced {
         imageSet.setInvertImages(true);       
         LOGGER.info("Loading images...");         
         imageSet.loadLabels(new File(labelsFile)); // file with category labels, in this case digits 0-9
-        imageSet.loadImages(new File(trainingFile), 1000); // files with list of image paths to use for training,  the second parameter is a number of images in subset of original data set
+        imageSet.loadImages(new File(trainingFile), 10000); // files with list of image paths to use for training,  the second parameter is a number of images in subset of original data set
 
         ImageSet[] imageSets = imageSet.split(0.65, 0.35); // split data set into training and test sets in given ratio
         int labelsCount = imageSet.getLabelsCount(); // the number of image categories/classes, the number of network outputs should correspond to this
@@ -87,7 +89,7 @@ public class MnistHandwrittenDigitAdvanced {
         BackpropagationTrainer trainer = neuralNet.getTrainer();
         trainer.setLearningRate(0.001f) // za ada delta 0.00001f za rms prop 0.001
                .setStopError(0.03f)
-               .setOptimizer(OptimizerType.ADAGRAD) // use adagrad optimization algorithm
+               .setOptimizer(OptimizerType.ADAM) // use adagrad optimization algorithm
                .setLearningRate(0.001f)
                .setStopEpochs(1000);
         trainer.train(imageSets[0]);
@@ -96,7 +98,7 @@ public class MnistHandwrittenDigitAdvanced {
         ClassifierEvaluator evaluator = new ClassifierEvaluator();
         EvaluationMetrics em = evaluator.evaluate(neuralNet, imageSets[1]);
         LOGGER.info("------------------------------------------------");
-        LOGGER.info("Classification performance measure" + System.lineSeparator());
+        LOGGER.log(Level.INFO, "Classification performance measure{0}", System.lineSeparator());
         LOGGER.info("TOTAL AVERAGE");
         LOGGER.info(evaluator.getMacroAverage().toString());
         LOGGER.info("By Class");
@@ -112,9 +114,7 @@ public class MnistHandwrittenDigitAdvanced {
         
         // Save trained network to file
         FileIO.writeToFile(neuralNet, "mnistDemo.dnet");
-        
-        // shutdown the thread pool
-        DeepNetts.shutdown();            
+                   
     }
 
     public static void main(String[] args) throws IOException {

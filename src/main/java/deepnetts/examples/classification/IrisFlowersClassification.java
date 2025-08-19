@@ -8,7 +8,9 @@ import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
+import deepnetts.net.train.opt.OptimizerType;
 import deepnetts.util.DeepNettsException;
+import deepnetts.util.DeepNettsThreadPool;
 import java.io.IOException;
 import java.util.logging.Logger;
 import javax.visrec.ml.data.DataSet;
@@ -42,6 +44,11 @@ public class IrisFlowersClassification {
     static final Logger LOGGER = Logger.getLogger(DeepNetts.class.getName());
 
     public static void main(String[] args) throws DeepNettsException, IOException {
+       DeepNetts.getInstance().setUseCuda(true);
+       DeepNetts.getInstance().setMaxThreads(1);
+      //   DeepNetts.getInstance().setUseVectorAPI(true);
+        
+         
         // load iris data  set
         DataSet dataSet = DataSets.readCsv("datasets/iris-flowers.csv", 4, 3, true, ",");
         TrainTestSplit trainTest = DataSets.trainTestSplit(dataSet, 0.65);
@@ -50,11 +57,11 @@ public class IrisFlowersClassification {
         MaxScaler scaler = new MaxScaler(trainTest.getTrainingSet());
         scaler.apply(trainTest.getTrainingSet());   
         scaler.apply(trainTest.getTestSet());
-        
+
         // create an instance of a neural network  using builder
         FeedForwardNetwork neuralNet = FeedForwardNetwork.builder()
                 .addInputLayer(4)
-                .addFullyConnectedLayer(16, ActivationType.TANH)
+                .addFullyConnectedLayer(32, ActivationType.TANH)
                 .addOutputLayer(3, ActivationType.SOFTMAX)
                 .lossFunction(LossType.CROSS_ENTROPY)
                 .randomSeed(123).
@@ -62,9 +69,10 @@ public class IrisFlowersClassification {
         
         // get and configure an instanceof training algorithm
         BackpropagationTrainer trainer = neuralNet.getTrainer();
-        trainer.setStopError(0.03f)
-               .setStopEpochs(350)
-               .setLearningRate(0.01f);
+        trainer//setStopError(0.03f)
+               .setStopEpochs(10000)
+               .setLearningRate(0.01f)
+                .setOptimizer(OptimizerType.SGD);
             
         // run training to build the model
         trainer.train(trainTest.getTrainingSet());
@@ -73,8 +81,10 @@ public class IrisFlowersClassification {
         EvaluationMetrics evalResult = neuralNet.test(trainTest.getTestSet());        
         LOGGER.info(evalResult.toString());
         
-        // shutdown the thread pool
-        DeepNetts.shutdown();            
+        if (DeepNetts.getInstance().isMultithreaded()) {
+            System.out.println("Used threads:"+neuralNet.getThreadPool().getThreadNum());
+            neuralNet.getThreadPool().shutdownNow();           
+        }
     }
 
 }

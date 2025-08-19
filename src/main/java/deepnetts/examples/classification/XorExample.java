@@ -41,14 +41,14 @@ public class XorExample {
         FeedForwardNetwork neuralNet = FeedForwardNetwork.builder()
                 .addInputLayer(2)
                 .addFullyConnectedLayer(3, ActivationType.TANH)
-                .addOutputLayer(1, ActivationType.SIGMOID)
+                .addOutputLayer(1, ActivationType.LINEAR)
                 .lossFunction(LossType.MEAN_SQUARED_ERROR)
                 .build();
         
         // set training algorithm settings
         BackpropagationTrainer trainer = neuralNet.getTrainer();
-        trainer.setStopError(0.01f);
-        trainer.setLearningRate(0.9f);
+        trainer.setStopError(0.001f);
+        trainer.setLearningRate(0.1f);
         
         // train the neural network
         trainer.train(dataSet);
@@ -56,8 +56,6 @@ public class XorExample {
         // use the neural network to predict result for the given input
         float[] out = neuralNet.predict(0, 1);
         System.out.println("Predicted output: " + out[0]);
-        
-        // shutdown the thread pool
-        DeepNetts.shutdown();             
+                   
     }
 }

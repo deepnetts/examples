@@ -10,6 +10,7 @@ import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
+import deepnetts.net.train.opt.OptimizerType;
 import deepnetts.util.DeepNettsException;
 import deepnetts.util.FileIO;
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class IrisFlowersClassificationAdvanced {
         // create an instance of a neural network  using builder
         FeedForwardNetwork neuralNet = FeedForwardNetwork.builder()
                 .addInputLayer(4)
-                .addFullyConnectedLayer(16, ActivationType.TANH)
+                .addFullyConnectedLayer(16, ActivationType.RELU)
                 .addOutputLayer(3, ActivationType.SOFTMAX)
                 .lossFunction(LossType.CROSS_ENTROPY)
                 .randomSeed(123).
@@ -66,13 +67,13 @@ public class IrisFlowersClassificationAdvanced {
         // get and configure an instanceof training algorithm
         BackpropagationTrainer trainer = neuralNet.getTrainer();
         trainer.setStopError(0.05f)
-               .setStopEpochs(1000000)
-               .setLearningRate(0.1f)
-               .setEarlyStopping(true)  // early stopping will stop the training if the error starts decreasing to slow
+               .setStopEpochs(100000)
+               .setLearningRate(0.01f)
+               .setEarlyStopping(false)  // early stopping will stop the training if the error starts decreasing to slow
                .setEarlyStoppingMinLossChange(0.001f)   // stop the training if training error is smaller then this value
              //  .setLearningRateDecay(0.01f)       // uncoment these to use these additional training settings
-               //.setOptimizer(OptimizerType.MOMENTUM)
-             //  .setMomentum(0.9f);                
+               .setOptimizer(OptimizerType.ADAM)
+               .setMomentum(0.9f)
                .setBatchMode(false);
 
                       
@@ -82,7 +83,7 @@ public class IrisFlowersClassificationAdvanced {
 
         ClassificationMetrics ceResult = Evaluators.evaluateClassifier(neuralNet, trainTest.getTestSet());
         
-        LOGGER.info("Classification performance measure" + System.lineSeparator());
+        LOGGER.log(Level.INFO, "Classification performance measure{0}", System.lineSeparator());
         LOGGER.info(ceResult.toString());
         
        
@@ -90,14 +91,12 @@ public class IrisFlowersClassificationAdvanced {
         try {
             FeedForwardNetwork loadedNet = FileIO.createFromFile("testSerialization.nnet", FeedForwardNetwork.class);
             ceResult = Evaluators.evaluateClassifier(loadedNet, trainTest.getTestSet());
-            LOGGER.info("Classification performance measure" + System.lineSeparator());
+            LOGGER.log(Level.INFO, "Classification performance measure{0}", System.lineSeparator());
             LOGGER.info(ceResult.toString());            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(IrisFlowersClassificationAdvanced.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        // shutdown the thread pool
-        DeepNetts.shutdown();          
+                 
     }
 
 }

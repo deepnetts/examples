@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -58,14 +59,14 @@ public class MnistHandwrittenDigitRecognition {
         // download MNIST data set from github
         Path mnistPath = ExampleDataSets.downloadMnistDataSet();   
         LOGGER.info("Downloaded MNIST data set to "+mnistPath);        
-
+//DeepNetts.getInstance().setMaxThreads(1);
         // create a data set from images and labels
         ImageSet imageSet = new ImageSet(imageWidth, imageHeight);
         imageSet.setInvertImages(true);        
         imageSet.setGrayscale(true);
         LOGGER.info("Loading images...");
         imageSet.loadLabels(new File(labelsFile)); // file with category labels, in this case digits 0-9
-        imageSet.loadImages(new File(trainingFile), 10000);// 1000  // files with list of image paths to use for training,  the second parameter is a number of images in subset of original data set
+        imageSet.loadImages(new File(trainingFile), 100);// 1000  // files with list of image paths to use for training,  the second parameter is a number of images in subset of original data set
 
         ImageSet[] imageSets = imageSet.split(0.8, 0.2); // split data set into training and test sets in given ratio
         int labelsCount = imageSet.getLabelsCount(); // the number of image categories/classes, the number of network outputs should correspond to this
@@ -79,8 +80,10 @@ public class MnistHandwrittenDigitRecognition {
                 .addMaxPoolingLayer(2, 2)   
                 .addConvolutionalLayer(24, Filters.ofSize(5))
                 .addMaxPoolingLayer(2, 2)                 
-                .addFullyConnectedLayer(60)
-                .addFullyConnectedLayer(60)
+                .addConvolutionalLayer(48, Filters.ofSize(5))
+                .addMaxPoolingLayer(2, 2)                                 
+                .addFullyConnectedLayer(96)
+                .addFullyConnectedLayer(96)
                 .addOutputLayer(labelsCount, ActivationType.SOFTMAX)
                 .hiddenActivationFunction(ActivationType.RELU)
                 .lossFunction(LossType.CROSS_ENTROPY)
@@ -95,32 +98,30 @@ public class MnistHandwrittenDigitRecognition {
                 .setStopError(0.02f)
                 .setStopAccuracy(0.99f)
 //                .setStopEpochs(20)
-                .setOptimizer(OptimizerType.MOMENTUM)
-                .setMomentum(0.7f);
-        trainer.train(imageSets[0]);
+                .setOptimizer(OptimizerType.ADAM); // 
+                //.setMomentum(0.9f);
+        trainer.train(imageSet);
 
         // Test/evaluate trained network to see how it perfroms with enseen data
-        ClassifierEvaluator evaluator = new ClassifierEvaluator();
-        EvaluationMetrics em = evaluator.evaluate(neuralNet, imageSets[1]);
-        LOGGER.info("------------------------------------------------");
-        LOGGER.info("Classification metrics" + System.lineSeparator());
-        LOGGER.info(evaluator.getMacroAverage().toString()); // average metrics for all classes
-        LOGGER.info("By Class"); // print evaluation metrics for each class/category
-        Map<String, ClassificationMetrics> byClass = evaluator.getMetricsByClass();
-        byClass.entrySet().stream().forEach((entry) -> {
-            LOGGER.info("Class " + entry.getKey() + ":");
-            LOGGER.info(entry.getValue().toString());
-            LOGGER.info("----------------");
-        });
-
-        ConfusionMatrix confMatrix = evaluator.getConfusionMatrix();
-        LOGGER.info(confMatrix.toString());
+//        ClassifierEvaluator evaluator = new ClassifierEvaluator();
+//        EvaluationMetrics em = evaluator.evaluate(neuralNet, imageSet);
+//        LOGGER.info("------------------------------------------------");
+//        LOGGER.log(Level.INFO, "Classification metrics{0}", System.lineSeparator());
+//        LOGGER.info(evaluator.getMacroAverage().toString()); // average metrics for all classes
+//        LOGGER.info("By Class"); // print evaluation metrics for each class/category
+//        Map<String, ClassificationMetrics> byClass = evaluator.getMetricsByClass();
+//        byClass.entrySet().stream().forEach((entry) -> {
+//            LOGGER.log(Level.INFO, "Class {0}:", entry.getKey());
+//            LOGGER.info(entry.getValue().toString());
+//            LOGGER.info("----------------");
+//        });
+//
+//        ConfusionMatrix confMatrix = evaluator.getConfusionMatrix();
+    //    LOGGER.info(confMatrix.toString());
         
         // Save trained network to file
         FileIO.writeToFile(neuralNet, "mnistDemo.dnet");
-        
-        // shutdown the thread pool
-        DeepNetts.shutdown();             
+                  
     }
 
     public static void main(String[] args) throws IOException {

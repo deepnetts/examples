@@ -18,6 +18,7 @@ import deepnetts.util.FileIO;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -55,16 +56,18 @@ public class Cifar10 {
         
         // create a data set from images and labels
         ImageSet imageSet = new ImageSet(imageWidth, imageHeight);
-        imageSet.zeroMean();
-      //  imageSet.setInvertImages(true);        
+
+     
         LOGGER.info("Loading images...");
         imageSet.loadLabels(new File(labelsFile)); // file with category labels, in this case digits 0-9
         imageSet.loadImages(new File(trainingFile), 10000); // 10000 files with list of image paths to use for training,  the second parameter is a number of images in subset of original data set
-
+      //  imageSet.setInvertImages(true);    
+        imageSet.zeroMeanPerChannel(); // skaliranje 255, normalizacija i centriranje, bitan je redosled da ne bude negativnih
+        
         ImageSet[] imageSets = imageSet.split(0.65, 0.35); // split data set into training and test sets in given ratio
         int labelsCount = imageSet.getLabelsCount(); // the number of image categories/classes, the number of network outputs should correspond to this
 
-        LOGGER.info("Creating neural network architecture...");
+        LOGGER.info("Creating a neural network...");
 
         // create convolutional neural network architecture
         ConvolutionalNetwork neuralNet = ConvolutionalNetwork.builder()
@@ -75,14 +78,15 @@ public class Cifar10 {
                 .addMaxPoolingLayer(2, 2)   // 8
                 .addConvolutionalLayer(24, Filters.ofSize(3))
                 .addMaxPoolingLayer(2, 2)     //4           
-//                .addConvolutionalLayer(24, 5)
-//                .addMaxPoolingLayer(2, 2)     // 2
-//                .addConvolutionalLayer(48, 5)
-//                .addMaxPoolingLayer(2, 2)     // 1                
-                .addFullyConnectedLayer(100)
-                .addFullyConnectedLayer(100)
+                .addConvolutionalLayer(48, 5)
+                .addMaxPoolingLayer(2, 2)     // 2
+                .addConvolutionalLayer(96, 5)
+                .addMaxPoolingLayer(2, 2)     // 1                
+                .addFullyConnectedLayer(128)
+                .addFullyConnectedLayer(128)
+                .addFullyConnectedLayer(128)
                 .addOutputLayer(labelsCount, ActivationType.SOFTMAX)
-                .hiddenActivationFunction(ActivationType.RELU)
+                .hiddenActivationFunction(ActivationType.TANH)
                 .lossFunction(LossType.CROSS_ENTROPY)
                 .randomSeed(123)
                 .build();
@@ -92,16 +96,12 @@ public class Cifar10 {
         // set training options and train the network
         BackpropagationTrainer trainer = neuralNet.getTrainer();
         trainer.setLearningRate(0.001f)
-                .setStopError(0.03f)
-                .setStopAccuracy(0.95f)
-                .setOptimizer(OptimizerType.MOMENTUM)
-                .setMomentum(0.7f);
+                .setStopError(0.02f)
+                .setStopAccuracy(0.99f)
+                .setOptimizer(OptimizerType.SGD);
+
         trainer.train(imageSets[0]);
 
-        // ovde ispisi greske za svaki element data seta
-        for(MLDataItem dataItem : imageSets[0]) {
-            System.out.println(dataItem.getError());
-        }
         
         // Test/evaluate trained network to see how it perfroms with enseen data
         ClassifierEvaluator evaluator = new ClassifierEvaluator();
@@ -112,7 +112,7 @@ public class Cifar10 {
         LOGGER.info("By Class"); // print evaluation metrics for each class/category
         Map<String, ClassificationMetrics> byClass = evaluator.getMetricsByClass();
         byClass.entrySet().stream().forEach((entry) -> {
-            LOGGER.info("Class " + entry.getKey() + ":");
+            LOGGER.log(Level.INFO, "Class {0}:", entry.getKey());
             LOGGER.info(entry.getValue().toString());
             LOGGER.info("----------------");
         });
@@ -122,9 +122,7 @@ public class Cifar10 {
         
         // Save trained network to file
         FileIO.writeToFile(neuralNet, "cifar10net.dnet");
-        
-        // shutdown the thread pool
-        DeepNetts.shutdown();             
+                  
     }
 
     public static void main(String[] args) throws IOException {

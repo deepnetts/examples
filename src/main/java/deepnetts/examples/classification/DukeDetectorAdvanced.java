@@ -63,11 +63,12 @@ public class DukeDetectorAdvanced {
         ImageSet imageSet = new ImageSet(imageWidth, imageHeight);
         imageSet.setResizeStrategy(ImageResize.STRATCH);
         imageSet.setInvertImages(true);
-        imageSet.zeroMean();        
+     
 
         LOGGER.info("Loading images...");
         imageSet.loadLabels(new File(labelsFile));
         imageSet.loadImages(new File(trainingFile)); // point to Path
+        imageSet.zeroMeanPerChannel();   
 
         TrainTestSplit trainTestPair = DataSets.trainTestSplit(imageSet, 0.7) ;
 
@@ -109,8 +110,6 @@ public class DukeDetectorAdvanced {
 
         System.out.println(results.toString());
         
-        // shutdown the thread pool
-        DeepNetts.shutdown();
     }
 
 }

@@ -9,7 +9,6 @@ import deepnetts.net.ConvolutionalNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.eval.ConfusionMatrix;
-import deepnetts.net.layers.Filter;
 import deepnetts.net.layers.Filters;
 import deepnetts.net.loss.LossType;
 import deepnetts.util.FileIO;
@@ -64,9 +63,10 @@ public class DukeDetector {
         ImageSet imageSet = new ImageSet(imageWidth, imageHeight);
         imageSet.setResizeStrategy(ImageResize.STRATCH);
         imageSet.setInvertImages(true);
-        imageSet.zeroMean();
+        
         imageSet.loadLabels(new File(labelsFile));
         imageSet.loadImages(new File(trainingFile)); // point to Path
+        imageSet.zeroMeanPerChannel();
 
         // split data into training and test set
         TrainTestSplit trainTestPair = DataSets.trainTestSplit(imageSet, 0.7);
@@ -110,8 +110,6 @@ public class DukeDetector {
         Map<String, Float> results = imageClassifier.classify(image); // result is a map with image labels as keys and coresponding probability
         LOGGER.info(results.toString());
 
-        // shutdown the thread pool
-        DeepNetts.shutdown();
     }
 
 }

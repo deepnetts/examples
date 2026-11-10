@@ -1,81 +1,207 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.deepnetts</groupId>
-    <version>3.1.1</version>
+    <groupId>com.deepnetts.examples</groupId>
     <artifactId>deepnetts-examples</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    
+
+    <name>Deep Netts Examples (Community Edition)</name>
+    <description>Runnable examples for the open-source Deep Netts Community Edition (deepnetts-core).</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>25</maven.compiler.release>
+        <deepnetts.version>4.0.5</deepnetts.version>
+        <exec.mainClass>com.deepnetts.examples.helloworld.HelloWorld</exec.mainClass>
+        <excludedTestGroups>slow</excludedTestGroups>
+    </properties>
+
     <dependencies>
         <dependency>
-            <groupId>org.knowm.xchart</groupId>
-            <artifactId>xchart</artifactId>
-            <version>3.5.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>de.erichseifert.vectorgraphics2d</groupId>
-                    <artifactId>VectorGraphics2D</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20190722</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.visrec</groupId>
-            <artifactId>visrec-api</artifactId>
-            <version>1.0.5</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.visrec</groupId>
-            <artifactId>visrec-ri</artifactId>
-            <version>1.0.3</version>
-            <type>jar</type>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.deepnetts</groupId>
-                    <artifactId>deepnetts-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>com.deepnetts</groupId>
-            <artifactId>deepnetts-core-pro</artifactId>
-            <version>3.2.0</version>
+            <artifactId>deepnetts-core</artifactId>
+            <version>${deepnetts.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.deepnetts</groupId>
-            <artifactId>deepnetts-license</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.12.2</version>
             <scope>test</scope>
-            <type>jar</type>
         </dependency>
     </dependencies>
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-    <name>deepnetts-examples</name>
-    <description>Run options for optimal inlining
 
--XX:+UnlockDiagnosticVMOptions
--XX:MaxInlineSize=80        
--XX:+PrintInlining
--XX:+PrintCompilation
-        
-----------------------------
-For JitWatch
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>require-java-25-and-maven-3.9</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>[25,)</version>
+                                    <message>These examples need Java 25 or newer, but Maven is running on Java ${java.version}. Install a JDK 25, point JAVA_HOME to it and run the command again.</message>
+                                </requireJavaVersion>
+                                <requireMavenVersion>
+                                    <version>[3.9,)</version>
+                                    <message>These examples need Maven 3.9 or newer, but this is Maven ${maven.version}. Install a newer Maven (https://maven.apache.org/install.html).</message>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.3</version>
+                <configuration>
+                    <excludedGroups>${excludedTestGroups}</excludedGroups>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
+            </plugin>
+        </plugins>
+    </build>
 
--XX:+UnlockDiagnosticVMOptions -XX:+TraceClassLoading -XX:+LogCompilation -XX:+PrintAssembly
-
--XX:MaxInlineSize=230 -XX:+UnlockDiagnosticVMOptions -XX:+TraceClassLoading -XX:+LogCompilation -XX:+PrintAssembly
-</description>
+    <profiles>
+        <profile>
+            <id>all</id>
+            <properties>
+                <excludedTestGroups>none</excludedTestGroups>
+            </properties>
+        </profile>
+        <profile>
+            <id>hello-world</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.helloworld.HelloWorld</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>credit-card-fraud</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.classification.creditcardfraud.CreditCardFraud</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>taxi-fare</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.regression.taxifare.TaxiFare</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>exam-pass</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.classification.exampass.ExamPass</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>light-switches</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.classification.lightswitch.LightSwitches</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>spam-email</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.classification.spamemail.SpamEmail</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>sonar-mines</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.classification.sonarmines.SonarMines</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>iris-flower</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.classification.irisflower.IrisFlower</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>boston-housing</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.regression.bostonhousing.BostonHousing</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>cpu-performance</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.regression.cpuperformance.CpuPerformance</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>auto-insurance</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.regression.autoinsurance.AutoInsurance</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>sorting-algorithm</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.regression.sortingalgorithm.SortingAlgorithm</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>digits</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.image_classification.digits.Digits</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>duke-detection</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.image_classification.dukedetection.DukeDetection</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>lego-figure</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.image_classification.lego.LegoFigure</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>parking-spot</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.image_classification.parking.ParkingSpot</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>hot-dog</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.image_classification.hotdog.HotDog</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>vgg16-import</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.image_classification.vgg16.Vgg16Import</exec.mainClass>
+            </properties>
+        </profile>
+        <profile>
+            <id>sorting-benchmark</id>
+            <properties>
+                <exec.mainClass>com.deepnetts.examples.regression.sortingalgorithm.benchmark.SortingBenchmark</exec.mainClass>
+            </properties>
+        </profile>
+    </profiles>
 </project>

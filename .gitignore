@@ -1,2 +1,22 @@
-/datasets/mnist/
-/target/
+# Maven build output
+target/
+
+# Networks saved by the examples (models/cache holds the 600 MB VGG16 weights)
+models/
+
+# The dataset SortingBenchmark makes for your own computer
+datasets/sorting-algorithm-my-computer.csv
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+nb-configuration.xml
+nbactions.xml
+
+# System files
+.DS_Store
+Thumbs.db
